@@ -2,34 +2,51 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '/src/views/HomeView.vue'
 import BlogsView from '/src/views/BlogsView.vue'
 import NewPost from '/src/views/NewPost.vue'
-import LoginPage from '/src/views/LoginPage.vue'
+import ForgotPassword from "../views/ForgotPassword.vue";
 
 const routes = [
     {
         path: '/',
         name: 'home',
         component: HomeView,
+        meta: {
+            title: 'Home'
+        }
     },
     {
         path: '/blogs',
         name: 'blogs',
         component: BlogsView,
+        meta: {
+            title: 'Blogs'
+        }
     },
     {
         path: '/post/create',
         name: 'newpost',
         component: NewPost,
+        meta: {
+            title: 'Create New Post'
+        }
     },
     {
-        path: '/login',
-        name: 'login',
-        component: LoginPage,
+        path: '/forgot-password',
+        name: 'forgot-password',
+        component: ForgotPassword,
+        meta: {
+            title: 'Reset Password'
+        }
     },
 ]
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
-})
+});
+
+router.beforeEach((to, from, next) => {
+    document.title = `${to.meta.title} | NelsonIsioma.me`;
+    next();
+});
 
 export default router

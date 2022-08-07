@@ -1,0 +1,79 @@
+<script>
+import useVuelidate from '@vuelidate/core'
+import {required, helpers, minLength, email} from '@vuelidate/validators'
+import {decodeCredential, GoogleLogin} from "vue3-google-login";
+
+export default {
+  name: "LoginModal",
+  components: { GoogleLogin },
+  data () {
+    return {
+      v$: useVuelidate(),
+      email: '',
+      password: '',
+      modalShow: false,
+    }
+  },
+  validations() {
+    return {
+      email: {
+        required: helpers.withMessage('This field is required', required),
+        email: helpers.withMessage('Please input a valid E-mail', email),
+      },
+      password: {
+        required: helpers.withMessage('This field is required', required),
+        minLength: helpers.withMessage('Password must be longer than 6 characters', minLength(6))
+      },
+    }
+  },
+  methods: {
+    signIn() {
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        alert('Form submitted successfully')
+      } else {
+        alert('Form invalid')
+      }
+    },
+    gSignIn(res) {
+      const userData = decodeCredential(res.credential)
+    },
+    toggleModal() {
+      this.modalShow = !this.modalShow
+    }
+  }
+}
+</script>
+
+<template>
+  <div class="bg-white fixed h-3/5 w-[90vw] top-[15%] mx-[2.5vw] rounded-md p-5 font-header z-50" :class="{ hidden: modalShow}">
+    <div class="relative">
+      <h1 class="text-center text-xl font-semibold">Sign In</h1>
+      <button class="absolute top-0 right-0 hover:text-teal-300" @click="toggleModal">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <form action="" class="mt-5" @submit.prevent="signIn">
+      <div class="my-3">
+        <input v-model="email" type="email" placeholder="E-mail" class="w-full border border-gray-300 rounded-lg pl-3 py-2">
+        <span v-if="v$.email.$error" class="text-xs text-red-400">{{ v$.email.$errors[0].$message }}</span>
+      </div>
+      <div class="my-3">
+        <input v-model="password" type="password" placeholder="Password" class="w-full border border-gray-300 rounded-lg pl-3 py-2">
+        <span v-if="v$.password.$error" class="text-xs text-red-400">{{ v$.password.$errors[0].$message }}</span>
+      </div>
+      <div class="my-3">
+        <button type="submit" class="transition-colors bg-gray-800 px-2 py-1 text-white rounded-full hover:text-teal-300">
+          Sign In
+        </button>
+      </div>
+      <div class="text-center">
+        <h2 class="mb-3">OR:</h2>
+        <GoogleLogin :callback="gSignIn"/>
+      </div>
+    </form>
+  </div>
+</template>
+

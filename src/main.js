@@ -5,10 +5,14 @@ import router from "./router"
 import Vue3Editor from "vue3-editor"
 import { createPinia } from 'pinia'
 import axios from 'axios'
+import vue3GoogleLogin from 'vue3-google-login'
 
 const pinia = createPinia()
 const app = createApp(App)
 
+app.use(vue3GoogleLogin, {
+    clientId: '784429536780-7ca5h2gum7u49bnflss7ofbl5s1929nc.apps.googleusercontent.com'
+})
 app.use(router)
 app.use(pinia)
 app.mount('#app')

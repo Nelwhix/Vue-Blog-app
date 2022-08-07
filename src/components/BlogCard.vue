@@ -7,9 +7,9 @@ export default {
 
 <template>
     <div>
-        <div class="transition-transform ease-in-out card h-[21rem] hover:-rotate-1">
+        <div class="transition-transform ease-in-out card hover:-rotate-1 dark:bg-gray-800 dark:text-white">
             <img :src="`../src/assets/blogphotos/${post.blogImg}.jpg`" alt="" class="h-48 rounded-t-sm w-full bg-cover">
-            <div class="absolute flex gap-3 top-2 right-1">
+            <div class="absolute flex gap-3 top-2 right-1 dark:text-black hidden">
                 <button class="bg-white rounded-full p-1 hover:bg-gray-700 hover:text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />

@@ -32,7 +32,7 @@
                     <router-link class="hover:text-teal-300" :to="{ name: 'home'}">Home</router-link>
                     <router-link class="hover:text-teal-300" :to="{ name: 'blogs'}">Blogs</router-link>
                     <router-link class="hidden hover:text-teal-300" :to="{ name: 'newpost'}">Create Post</router-link>
-                    <router-link class="hover:text-teal-300" :to="{ name: 'login'}">Login / Register</router-link>
+                    <a href="" class="hover:text-teal-300">Sign Up</a>
                 </ul>
             </div>
             <div class="col my-3">
