@@ -3,6 +3,9 @@ import HomeView from '/src/views/HomeView.vue'
 import BlogsView from '/src/views/BlogsView.vue'
 import NewPost from '/src/views/NewPost.vue'
 import ForgotPassword from "../views/ForgotPassword.vue";
+import { mapWritableState } from "pinia";
+import { useBlogStore } from "../store/blogStore.js";
+
 
 const routes = [
     {
@@ -45,6 +48,9 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+    /*...mapWritableState(useBlogStore, ['overlayMode', 'mobileNav'])
+    this.mobileNav = true
+    this.overlayMode = true*/
     document.title = `${to.meta.title} | NelsonIsioma.me`;
     next();
 });

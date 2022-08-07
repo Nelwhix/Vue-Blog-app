@@ -1,7 +1,9 @@
 <script>
-import useVuelidate from '@vuelidate/core'
-import {required, helpers, minLength, email} from '@vuelidate/validators'
+import useVuelidate from '@vuelidate/core';
+import {required, helpers, minLength, email} from '@vuelidate/validators';
 import {decodeCredential, GoogleLogin} from "vue3-google-login";
+import { mapWritableState } from "pinia";
+import { useBlogStore } from "../store/blogStore.js";
 
 export default {
   name: "LoginModal",
@@ -11,7 +13,6 @@ export default {
       v$: useVuelidate(),
       email: '',
       password: '',
-      modalShow: false,
     }
   },
   validations() {
@@ -38,24 +39,28 @@ export default {
     gSignIn(res) {
       const userData = decodeCredential(res.credential)
     },
-    toggleModal() {
-      this.modalShow = !this.modalShow
+    closeModal() {
+      this.signInMode = true
+      this.overlayMode = true
     }
+  },
+  computed: {
+    ...mapWritableState(useBlogStore, ['signInMode', 'overlayMode'])
   }
 }
 </script>
 
 <template>
-  <div class="bg-white fixed h-3/5 w-[90vw] top-[15%] mx-[2.5vw] rounded-md p-5 font-header z-50" :class="{ hidden: modalShow}">
+  <div class="bg-white dark:bg-gray-800 dark:text-white fixed h-3/5 w-[90vw] sm:w-3/5 sm:mx-[20vw] top-[15%] mx-[2.5vw] rounded-md p-5 font-header z-50" :class="{ hidden: signInMode}">
     <div class="relative">
       <h1 class="text-center text-xl font-semibold">Sign In</h1>
-      <button class="absolute top-0 right-0 hover:text-teal-300" @click="toggleModal">
+      <button class="absolute top-0 right-0 hover:text-teal-300 dark:hover:text-teal-300" @click="closeModal">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
-    <form action="" class="mt-5" @submit.prevent="signIn">
+    <form action="" class="mt-5 text-black" @submit.prevent="signIn">
       <div class="my-3">
         <input v-model="email" type="email" placeholder="E-mail" class="w-full border border-gray-300 rounded-lg pl-3 py-2">
         <span v-if="v$.email.$error" class="text-xs text-red-400">{{ v$.email.$errors[0].$message }}</span>

@@ -1,24 +1,38 @@
 <script>
-    export default {
-        name: 'navigation',
-        props: ['mobileNav'],
-        emits: ['change-theme', 'activate-overlay'],
-        data() {
-            return {
-                iconSwitch: true,
-            };
+import { mapWritableState } from "pinia";
+import { useBlogStore } from "../store/blogStore.js";
+
+export default {
+    name: 'navigation',
+    emits: ['change-theme', 'activate-overlay'],
+    data() {
+        return {
+            iconSwitch: true,
+        };
+    },
+    methods: {
+        toggleNav() {
+            this.mobileNav = false
+            this.overlayMode = false
         },
-        methods: {
-            toggleNav() {
-                this.$emit('activate-overlay')
-            },
-            iconToggle() {
-                this.iconSwitch = !this.iconSwitch
-                this.$emit('change-theme')
-            },
+        iconToggle() {
+            this.iconSwitch = !this.iconSwitch
+            this.$emit('change-theme')
+        },
+        openModal() {
+          if (!this.mobileNav) {
+            this.mobileNav = true
+          }
+          this.signInMode = false
+          this.overlayMode = false
         }
-    };
+    },
+    computed: {
+      ...mapWritableState(useBlogStore, ['signInMode', 'overlayMode', 'mobileNav'])
+    }
+};
 </script>
+
 <template>
     <header class="bg-white font-header dark:bg-gray-900 dark:text-white">
         <nav class="flex px-5 py-5 justify-between shadow-sm">
@@ -30,7 +44,7 @@
                     <router-link class="link" to="/">Home</router-link>
                     <router-link class="link" to="/blogs">Blogs</router-link>
                     <router-link class="link" to="#">Create Post</router-link>
-                    <button class="link">Sign In</button>
+                    <button class="link" @click="openModal">Sign In</button>
                 </ul>
             </div>
             <div class="hidden md:block transition-all rounded-full border-[0.5px] hover:border border-gray-400 bg-gray-200 w-12 h-6" @click="iconToggle">
@@ -51,13 +65,13 @@
                 </svg>
             </button>
         </nav>
-         <div class="transition-transform duration-500 absolute inset-y-0 h-screen bg-white dark:bg-gray-800 w-[50vw] z-[99] md:hidden" :class="{ '-translate-x-[70vw]': mobileNav }">
-            <ul class="flex flex-col text-black dark:text-white mx-3 mt-12 gap-5 text-end">
+         <div class="transition-transform duration-500 absolute inset-y-0 h-screen bg-white dark:bg-gray-800 w-[50vw] z-50 md:hidden" :class="{ '-translate-x-[70vw]': mobileNav }">
+            <ul class="flex gap-5 flex-col text-black dark:text-white p-5 text-end mt-10">
                 <router-link class="link" to="/">Home</router-link>
                 <router-link class="link" to="/blogs">Blogs</router-link>
                 <router-link class="link" to="#">Create Post</router-link>
-                <a href="#" class="link">Sign Up</a>
-                <div class="rounded-full border-[0.5px] hover:border border-gray-400 bg-gray-200 w-12 h-6 text-start" @click="iconToggle">
+                <a class="link" @click="openModal" href="#">Sign In</a>
+                <div class="rounded-full border-[0.5px] hover:border border-gray-400 bg-gray-200 w-12 h-6 ml-28 text-start" @click="iconToggle">
                     <button v-if="iconSwitch" class="bg-white text-black p-[1px] rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />

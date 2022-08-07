@@ -1,5 +1,5 @@
 <script>
-import { mapState } from 'pinia'
+import { mapWritableState } from 'pinia'
 import { useBlogStore } from '../store/blogStore'
 import BlogCard from "../components/BlogCard.vue";
 
@@ -14,12 +14,12 @@ export default {
       }
     },
     computed: {
-        ...mapState(useBlogStore, ['sampleBlogCards'])
+        ...mapWritableState(useBlogStore, ['sampleBlogCards', 'editMode'])
     },
     methods: {
-      editMode() {
+      edit() {
         this.iconSwitch = !this.iconSwitch
-
+        this.editMode = !this.editMode
       }
     }
 }
@@ -29,8 +29,8 @@ export default {
   <div>
     <div class="mx-2 py-3 flex justify-end gap-2">
       <span>Toggle Editing Post</span>
-      <div class="rounded-full border-[0.5px] border-gray-400 bg-gray-200 w-12 h-6">
-        <button class="transition-all bg-gray-800 w-6 h-6 rounded-full" :class="{ 'translate-x-6': iconSwitch }" @click="editMode">
+      <div class="rounded-full border-[0.5px] border-gray-400 bg-gray-200 w-12 h-6" @click="edit">
+        <button class="transition-all bg-gray-800 w-6 h-6 rounded-full" :class="{ 'translate-x-6': iconSwitch }">
         </button>
       </div>
     </div>
