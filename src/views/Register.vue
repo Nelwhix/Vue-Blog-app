@@ -3,7 +3,10 @@ import useVuelidate from '@vuelidate/core'
 import { required, email, minLength, sameAs, helpers } from '@vuelidate/validators'
 
 export default {
-  name: "SignUpModal",
+  name: "Register",
+  mounted() {
+
+  },
   data () {
     return {
       v$: useVuelidate(),
@@ -54,7 +57,7 @@ export default {
 </script>
 
 <template>
-  <div class="bg-white fixed h-4/5 w-[90vw] top-[15%] mx-[2.5vw] rounded-md p-5 font-header z-50">
+  <div class="bg-white fixed h-4/5 w-[90vw] top-[15%] mx-[2.5vw] rounded-md p-5 font-header z-50 hidden">
     <h1 class="text-center text-xl font-semibold">Sign Up</h1>
     <form action="" class="mt-5" @submit.prevent="signUp">
       <div class="my-2">

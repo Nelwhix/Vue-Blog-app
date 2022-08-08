@@ -3,8 +3,8 @@ import HomeView from '/src/views/HomeView.vue'
 import BlogsView from '/src/views/BlogsView.vue'
 import NewPost from '/src/views/NewPost.vue'
 import ForgotPassword from "../views/ForgotPassword.vue";
-import { mapWritableState } from "pinia";
 import { useBlogStore } from "../store/blogStore.js";
+import Register from "../views/Register.vue";
 
 
 const routes = [
@@ -33,11 +33,11 @@ const routes = [
         }
     },
     {
-        path: '/forgot-password',
-        name: 'forgot-password',
-        component: ForgotPassword,
+        path: '/register',
+        name: 'Register',
+        component: Register,
         meta: {
-            title: 'Reset Password'
+            title: 'Register'
         }
     },
 ]
@@ -48,9 +48,9 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    /*...mapWritableState(useBlogStore, ['overlayMode', 'mobileNav'])
-    this.mobileNav = true
-    this.overlayMode = true*/
+    const store = useBlogStore()
+    store.mobileNav = true
+    store.overlayMode = true
     document.title = `${to.meta.title} | NelsonIsioma.me`;
     next();
 });
