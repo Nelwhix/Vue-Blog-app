@@ -2,9 +2,9 @@
 import useVuelidate from '@vuelidate/core';
 import {required, helpers, minLength, email} from '@vuelidate/validators';
 import {decodeCredential, GoogleLogin} from "vue3-google-login";
-import { mapWritableState } from "pinia";
+import {mapActions, mapWritableState} from "pinia";
 import { useBlogStore } from "../store/blogStore.js";
-import axios from "axios";
+import { useUserStore } from "../store/userStore.js";
 
 export default {
   name: "LoginModal",
@@ -12,36 +12,33 @@ export default {
   data () {
     return {
       v$: useVuelidate(),
-      email: '',
-      password: '',
+      form: {
+        email: '',
+        password: '',
+      },
+      serverErrors: {}
     }
   },
   validations() {
     return {
-      email: {
-        required: helpers.withMessage('This field is required', required),
-        email: helpers.withMessage('Please input a valid E-mail', email),
-      },
-      password: {
-        required: helpers.withMessage('This field is required', required),
-        minLength: helpers.withMessage('Password must be longer than 6 characters', minLength(6))
+      form: {
+        email: {
+          required: helpers.withMessage('This field is required', required),
+          email: helpers.withMessage('Please input a valid E-mail', email),
+        },
+        password: {
+          required: helpers.withMessage('This field is required', required),
+          minLength: helpers.withMessage('Password must be longer than 6 characters', minLength(6))
+        },
       },
     }
   },
   methods: {
+    ...mapActions(useUserStore, ['login']),
     signIn() {
       this.v$.$validate();
       if (!this.v$.$error) {
-        axios.post('http://localhost:8000/login', {
-          email: this.email,
-          password: this.password,
-        })
-        .then(function (res) {
-          console.log(res);
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
+        this.login(this.form, this.serverErrors)
       }
     },
     gSignIn(res) {
@@ -70,12 +67,12 @@ export default {
     </div>
     <form action="" class="mt-5 text-black" @submit.prevent="signIn">
       <div class="my-3">
-        <input v-model="email" type="email" placeholder="E-mail" class="w-full border border-gray-300 rounded-lg pl-3 py-2">
-        <span v-if="v$.email.$error" class="text-xs text-red-400">{{ v$.email.$errors[0].$message }}</span>
+        <input v-model="form.email" type="email" placeholder="E-mail" class="w-full border border-gray-300 rounded-lg pl-3 py-2">
+        <span v-if="v$.form.email.$error" class="text-xs text-red-400">{{ v$.form.email.$errors[0].$message }}</span>
       </div>
       <div class="my-3">
-        <input v-model="password" type="password" placeholder="Password" class="w-full border border-gray-300 rounded-lg pl-3 py-2">
-        <span v-if="v$.password.$error" class="text-xs text-red-400">{{ v$.password.$errors[0].$message }}</span>
+        <input v-model="form.password" type="password" placeholder="Password" class="w-full border border-gray-300 rounded-lg pl-3 py-2">
+        <span v-if="v$.form.password.$error" class="text-xs text-red-400">{{ v$.form.password.$errors[0].$message }}</span>
       </div>
       <div class="my-3 flex justify-between">
         <button type="submit" class="transition-colors bg-gray-800 px-2 py-1 text-white rounded-full hover:text-teal-300">

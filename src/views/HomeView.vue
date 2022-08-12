@@ -53,7 +53,7 @@ export default {
         <div>
             <div class="flex flex-col md:flex-row md:justify-around md:align-middle p-5">
                 <h2 class="md:p-2 md:mt-3">NEVER MISS A POST, REGISTER FOR YOUR FREE ACCOUNT TODAY!</h2>
-                <a class="text-white bg-gray-900 rounded-full w-24 p-2 my-3 hover:bg-gray-300 hover:text-gray-900 text-center">Register!</a>
+                <router-link :to="{ name: 'Register' }" class="text-white bg-gray-900 rounded-full w-24 p-2 my-3 hover:bg-gray-300 hover:text-gray-900 text-center">Register!</router-link>
             </div>
         </div>
     </div>

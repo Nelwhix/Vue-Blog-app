@@ -42,7 +42,7 @@ export default {
             <div class="nav-links">
                 <ul class="hidden md:flex gap-2">
                     <router-link class="link" to="/">Home</router-link>
-                    <router-link class="link" to="/blogs">Blogs</router-link>
+                    <router-link class="link" :to="{ name: 'Blogs'}">Blogs</router-link>
                     <router-link class="link" to="#">Create Post</router-link>
                     <button class="link" @click="openModal">Sign In</button>
                 </ul>
@@ -68,7 +68,7 @@ export default {
          <div class="transition-transform duration-500 absolute inset-y-0 h-screen bg-white dark:bg-gray-800 w-[50vw] z-50 md:hidden" :class="{ '-translate-x-[70vw]': mobileNav }">
             <ul class="flex gap-5 flex-col text-black dark:text-white p-5 text-end mt-10">
                 <router-link class="link" to="/">Home</router-link>
-                <router-link class="link" to="/blogs">Blogs</router-link>
+                <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
                 <router-link class="link" to="#">Create Post</router-link>
                 <a class="link" @click="openModal" href="#">Sign In</a>
                 <div class="rounded-full border-[0.5px] hover:border border-gray-400 bg-gray-200 w-12 h-6 ml-28 text-start" @click="iconToggle">

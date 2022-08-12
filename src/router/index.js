@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '/src/views/HomeView.vue'
 import BlogsView from '/src/views/BlogsView.vue'
 import NewPost from '/src/views/NewPost.vue'
-import ForgotPassword from "../views/ForgotPassword.vue";
 import { useBlogStore } from "../store/blogStore.js";
 import Register from "../views/Register.vue";
 
@@ -18,7 +17,7 @@ const routes = [
     },
     {
         path: '/blogs',
-        name: 'blogs',
+        name: 'Blogs',
         component: BlogsView,
         meta: {
             title: 'Blogs'

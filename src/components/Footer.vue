@@ -30,7 +30,7 @@
             <div>
                 <ul class="flex gap-2 md:flex-col"> 
                     <router-link class="hover:text-teal-300" :to="{ name: 'home'}">Home</router-link>
-                    <router-link class="hover:text-teal-300" :to="{ name: 'blogs'}">Blogs</router-link>
+                    <router-link class="hover:text-teal-300" :to="{ name: 'Blogs'}">Blogs</router-link>
                     <router-link class="hidden hover:text-teal-300" :to="{ name: 'newpost'}">Create Post</router-link>
                     <a href="" class="hover:text-teal-300">Sign Up</a>
                 </ul>
