@@ -78,7 +78,7 @@ export default {
         <button type="submit" class="transition-colors bg-gray-800 px-2 py-1 text-white rounded-full hover:text-teal-300">
           Sign In
         </button>
-        <router-link :to="{ name: 'Register' }" class="text-sm underline mt-2 hover:text-teal-300">Create an account</router-link>
+        <router-link :to="{ name: 'Register' }" class="text-sm underline mt-2 hover:text-teal-300 dark:text-white dark:hover:text-teal-300">Create an account</router-link>
       </div>
       <div class="text-center">
         <h2 class="mb-3 dark:text-white">OR:</h2>
