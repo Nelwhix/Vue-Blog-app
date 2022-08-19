@@ -13,6 +13,7 @@
     "@vuelidate/validators": "^2.0.0-alpha.31",
     "@vueuse/core": "^9.1.0",
     "axios": "^0.27.2",
+    "netlify-cli": "^11.1.0",
     "pinia": "^2.0.17",
     "vue": "^3.2.37",
     "vue-loading-overlay": "5.0",
