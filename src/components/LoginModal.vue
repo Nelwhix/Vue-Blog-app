@@ -73,6 +73,7 @@ export default {
       <div class="my-3">
         <input v-model="form.password" type="password" placeholder="Password" class="w-full border border-gray-300 rounded-lg pl-3 py-2">
         <span v-if="v$.form.password.$error" class="text-xs text-red-400">{{ v$.form.password.$errors[0].$message }}</span>
+        <span v-if="serverErrors.errorArray" class="text-xs text-red-400">{{ serverErrors.errorArray[0] }}</span>
       </div>
       <div class="my-3 flex justify-between">
         <button type="submit" class="transition-colors bg-gray-800 px-2 py-1 text-white rounded-full hover:text-teal-300">

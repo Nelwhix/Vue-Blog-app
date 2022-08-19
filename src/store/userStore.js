@@ -1,6 +1,7 @@
 import axios from "../lib/axios.js";
 import { defineStore } from "pinia";
 import { useStorage } from "@vueuse/core";
+import { useBlogStore } from "./blogStore.js";
 
 const csrf = () => axios.get('/sanctum/csrf-cookie')
 
@@ -8,12 +9,10 @@ export const useUserStore = defineStore('userStore', {
     state: () => {
         return {
             userData: useStorage('userData', []),
-            authStatus: useStorage('authStatus', []),
             isLoading: false,
         }
     },
     getters: {
-        authUser: state => state.authStatus === 204,
         hasUserData: state => Object.keys(state.userData).length > 0
     },
     actions: {
@@ -33,7 +32,6 @@ export const useUserStore = defineStore('userStore', {
 
             axios.post('/register', form)
                 .then(res => {
-                    this.authStatus = res.status
                     this.$router.push({name: 'home'})
                 })
                 .catch(err => {
@@ -47,18 +45,19 @@ export const useUserStore = defineStore('userStore', {
         },
 
         async login(form, serverErrors) {
+            const blogStore = useBlogStore()
             this.isLoading = true
             await csrf()
 
             axios.post('/login', form)
                 .then(res => {
-                    this.authStatus = res.status
-                    this.$router.push({ name: 'Blogs' })
+                    this.userData = res.data
+                    blogStore.signInMode = true
+                    blogStore.overlayMode = true
                 })
                 .catch(err => {
                     if (err.response.data.errors) {
                         serverErrors.errorArray = Object.values(err.response.data.errors).flat()
-                        console.log(serverErrors.errorArray)
                     }
                 })
                 .then(() => {
