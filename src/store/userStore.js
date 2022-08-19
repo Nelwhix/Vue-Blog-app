@@ -20,6 +20,7 @@ export const useUserStore = defineStore('userStore', {
             axios.get('/user')
                 .then(res => {
                     this.userData = res.data
+                    console.log(this.userData)
                 })
                 .catch(err => {
                     if (err.response.data.errors) {
@@ -56,13 +57,34 @@ export const useUserStore = defineStore('userStore', {
                     blogStore.overlayMode = true
                 })
                 .catch(err => {
-                    if (err.response.data.errors) {
+                    if (err.response) {
                         serverErrors.errorArray = Object.values(err.response.data.errors).flat()
                     }
                 })
                 .then(() => {
                     this.isLoading = false
                 })
+        },
+
+        async logout() {
+            this.isLoading = true
+           await axios
+               .post('/logout')
+               .then(() => {
+                   this.$reset()
+                   this.userData = {}
+                   this.authStatus = {}
+
+                   this.router.push({ name: 'home' })
+               })
+               .catch(err => {
+                   if (err.response.data.errors) {
+                       console.log(Object.values(err.response.data.errors).flat())
+                   }
+               })
+               .then(() => {
+                   this.isLoading = false
+               })
         }
     }
 })
