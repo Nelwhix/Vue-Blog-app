@@ -18,6 +18,7 @@ export default {
       ...mapActions(useUserStore, ["logout"]),
       signOut() {
         this.logout()
+        this.dropdown = true
       },
         toggleNav() {
             this.mobileNav = false
@@ -42,11 +43,14 @@ export default {
       ...mapWritableState(useBlogStore, ['signInMode', 'overlayMode', 'mobileNav']),
       ...mapState(useUserStore, ['userData']),
       getUserInitials() {
-        if (this.userData !== null){
+        if (this.userData.name){
           return this.userData.name[0]
         }
       }
-    }
+    },
+    watch: {
+
+    },
 };
 </script>
 
@@ -65,13 +69,13 @@ export default {
                 </ul>
             </div>
           <div class="flex gap-2">
-            <button v-if="userData" class="p-1 w-10 rounded-full bg-black dark:bg-white text-white dark:text-black" @click="toggleProfileMenu">
+            <button v-if="userData.name" class="p-1 w-10 rounded-full bg-black dark:bg-white text-white dark:text-black" @click="toggleProfileMenu">
               <span class="text-xl text-white dark:text-black">{{ getUserInitials }}</span>
             </button>
               <div class="relative mt-8">
                 <div class="p-2 absolute bg-white text-black dark:bg-gray-900 dark:text-white top-6 right-1 w-56" :class="{ 'hidden': dropdown }">
                   <div class="grid grid-cols-4 mb-2">
-                    <p class="col-span-1 bg-gray-200 rounded-full w-10 p-1 text-black text-center">{{ getUserInitials }}</p>
+                    <p v-show="{  }" class="col-span-1 bg-gray-200 rounded-full w-10 p-1 text-black text-center">{{ getUserInitials }}</p>
                     <div class="col-span-3">
                       <p class="text-sm">{{ userData.name }}</p>
                       <p class="text-xs">{{ userData.email }}</p>

@@ -52,7 +52,7 @@ export const useUserStore = defineStore('userStore', {
 
             axios.post('/login', form)
                 .then(res => {
-                    this.userData = res.data
+                    this.getData()
                     blogStore.signInMode = true
                     blogStore.overlayMode = true
                 })
@@ -78,7 +78,7 @@ export const useUserStore = defineStore('userStore', {
                    this.router.push({ name: 'home' })
                })
                .catch(err => {
-                   if (err.response.data.errors) {
+                   if (err.response) {
                        console.log(Object.values(err.response.data.errors).flat())
                    }
                })
