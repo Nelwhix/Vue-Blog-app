@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '/src/views/HomeView.vue'
 import BlogsView from '/src/views/BlogsView.vue'
-import NewPost from '/src/views/NewPost.vue'
 import { useBlogStore } from "../store/blogStore.js";
 import Register from "../views/Register.vue";
+import Profile from "../views/Profile.vue";
+import CreatePost from "../views/CreatePost.vue";
 
 
 const routes = [
@@ -24,9 +25,9 @@ const routes = [
         }
     },
     {
-        path: '/post/create',
-        name: 'newpost',
-        component: NewPost,
+        path: '/create-post',
+        name: 'CreatePost',
+        component: CreatePost,
         meta: {
             title: 'Create New Post'
         }
@@ -37,6 +38,14 @@ const routes = [
         component: Register,
         meta: {
             title: 'Register'
+        }
+    },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile,
+        meta: {
+            title: 'Profile'
         }
     },
 ]

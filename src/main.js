@@ -2,7 +2,6 @@ import { createApp, markRaw } from 'vue'
 import './index.css'
 import App from './App.vue'
 import router from "./router"
-import Vue3Editor from "vue3-editor"
 import { createPinia } from 'pinia'
 import axios from 'axios'
 import vue3GoogleLogin from 'vue3-google-login'

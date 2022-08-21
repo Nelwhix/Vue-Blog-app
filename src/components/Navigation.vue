@@ -48,9 +48,6 @@ export default {
         }
       }
     },
-    watch: {
-
-    },
 };
 </script>
 
@@ -69,13 +66,13 @@ export default {
                 </ul>
             </div>
           <div class="flex gap-2">
-            <button v-if="userData.name" class="p-1 w-10 rounded-full bg-black dark:bg-white text-white dark:text-black" @click="toggleProfileMenu">
+            <button v-if="userData.name" class="p-1 w-10 rounded-full bg-zinc-800 dark:bg-white text-white dark:text-black" @click="toggleProfileMenu">
               <span class="text-xl text-white dark:text-black">{{ getUserInitials }}</span>
             </button>
               <div class="relative mt-8">
                 <div class="p-2 absolute bg-white text-black dark:bg-gray-900 dark:text-white top-6 right-1 w-56" :class="{ 'hidden': dropdown }">
                   <div class="grid grid-cols-4 mb-2">
-                    <p v-show="{  }" class="col-span-1 bg-gray-200 rounded-full w-10 p-1 text-black text-center">{{ getUserInitials }}</p>
+                    <p class="col-span-1 bg-gray-200 rounded-full w-10 p-1 text-black text-center">{{ getUserInitials }}</p>
                     <div class="col-span-3">
                       <p class="text-sm">{{ userData.name }}</p>
                       <p class="text-xs">{{ userData.email }}</p>
@@ -83,7 +80,7 @@ export default {
                   </div>
                   <hr />
                   <div class="flex flex-col">
-                    <router-link to="#" class="py-2 hover:bg-gray-500 text-center">
+                    <router-link :to="{ name: 'Profile' }" class="py-2 hover:bg-gray-500 text-center">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
@@ -121,12 +118,12 @@ export default {
           </div>
         </nav>
          <div class="transition-transform duration-500 absolute inset-y-0 h-screen bg-white dark:bg-gray-800 w-[50vw] z-50 md:hidden" :class="{ '-translate-x-[70vw]': mobileNav }">
-            <ul class="flex gap-5 flex-col text-black dark:text-white p-5 text-end mt-10">
-                <router-link class="link" to="/">Home</router-link>
+            <ul class="grid gap-5 justify-end text-black dark:text-white p-5 mt-10">
+                <router-link class="link" :to="{ name: 'home' }">Home</router-link>
                 <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
-                <router-link class="link" to="#">Create Post</router-link>
-                <a class="link" @click="openModal" href="#">Sign In</a>
-                <div class="rounded-full border-[0.5px] hover:border border-gray-400 bg-gray-200 w-12 h-6 ml-28 text-start" @click="iconToggle">
+                <router-link class="link" :to="{ name: 'CreatePost' }">Create Post</router-link>
+                <a v-if="!userData.name" class="link cursor-pointer" @click="openModal">Sign In</a>
+                <div class="rounded-full border-[0.5px] hover:border border-gray-400 bg-gray-200 w-12 h-6 text-start" @click="iconToggle">
                     <button v-if="iconSwitch" class="bg-white text-black p-[1px] rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
