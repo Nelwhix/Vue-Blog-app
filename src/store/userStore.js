@@ -70,8 +70,7 @@ export const useUserStore = defineStore('userStore', {
            await axios
                .post('/logout')
                .then(() => {
-                   this.$reset()
-                   this.router.push({ name: 'home' })
+                   this.userData = {}
                })
                .catch(err => {
                    if (err.response) {
