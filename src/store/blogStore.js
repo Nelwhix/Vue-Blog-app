@@ -12,12 +12,12 @@ export const useBlogStore = defineStore('blogStore', {
         blogHTML: "Write your blog Title here...",
         blogTitle: "",
         blogPhotoName: "",
-        blogPhotoFileUrl: null,
-        blogPhotoPreview: null,
+        blogPhotoUrl: null,
         mobileNav: true,
         editMode: true,
         signInMode: true,
         signUpMode: false,
         overlayMode: true,
+        previewMode: true,
     })
 })

@@ -53,7 +53,7 @@ export default {
 
 <template>
     <header class="bg-white font-header dark:bg-gray-900 dark:text-white">
-        <nav class="flex px-5 py-5 justify-between shadow-sm">
+        <nav class="flex px-5 py-5 justify-between shadow-md">
             <div>
                 <router-link class="font-bold text-xl md:text-2xl" :to="{ name: 'home'}">NelsonIsioma.me</router-link>
             </div>
