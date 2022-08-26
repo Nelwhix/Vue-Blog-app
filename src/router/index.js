@@ -5,6 +5,7 @@ import { useBlogStore } from "../store/blogStore.js";
 import Register from "../views/Register.vue";
 import Profile from "../views/Profile.vue";
 import CreatePost from "../views/CreatePost.vue";
+import BlogPreview from "../views/BlogPreview.vue";
 
 
 const routes = [
@@ -46,6 +47,14 @@ const routes = [
         component: Profile,
         meta: {
             title: 'Profile'
+        }
+    },
+    {
+        path: '/post-preview',
+        name: 'BlogPreview',
+        component: BlogPreview,
+        meta: {
+            title: 'Preview Blog Post'
         }
     },
 ]

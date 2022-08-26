@@ -5,16 +5,24 @@ import { useBlogStore } from "../store/blogStore.js";
 import { mapWritableState } from "pinia";
 import BlogCoverPreview from "../components/BlogCoverPreview.vue";
 import Overlay from "../components/Overlay.vue";
-import Quill from "quill/quill.js";
-import ImageUploader from "quill-image-uploader/src/quill.imageUploader"
-Quill.register("modules/imageUploader", ImageUploader)
+import { Quill } from '@vueup/vue-quill';
+import BlotFormatter from 'quill-blot-formatter'
+Quill.register('modules/blotFormatter', BlotFormatter)
+
+const quill = new Quill(..., {
+  modules: {
+    ...
+    blotFormatter: {
+
+    }
+  }
+});
 
 export default {
   name: "CreatePost",
   data() {
     return {
       file: null,
-      fileName: null,
     }
   },
   components: {
@@ -28,12 +36,13 @@ export default {
       this.$refs.previewbtn.disabled = false
     },
     showPreviewMenu() {
+      console.log(this.blogHTML)
       this.previewMode = false
       this.overlayMode = false
     }
   },
   computed: {
-    ...mapWritableState(useBlogStore, ['blogPhotoName', 'blogPhotoUrl', 'previewMode', 'overlayMode'])
+    ...mapWritableState(useBlogStore, ['blogPhotoName', 'blogPhotoUrl', 'previewMode', 'overlayMode', 'blogHTML'])
   }
 }
 </script>
@@ -50,11 +59,11 @@ export default {
         <button type="button" class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70 disabled:opacity-50" ref="previewbtn" @click="showPreviewMenu" >Preview Photo</button>
         <span>File Chosen: {{ blogPhotoName }}</span>
       </div>
-      <QuillEditor theme="snow" toolbar="full"/>
+      <QuillEditor v-model:content="blogHTML" contentType="html" theme="snow" toolbar="full"/>
     </div>
     <div class="mt-5">
       <button class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70">Publish Post</button>
-      <router-link to="#" class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70">Post Preview</router-link>
+      <router-link :to="{ name: 'BlogPreview' }" class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70">Post Preview</router-link>
     </div>
   </section>
 </template>
