@@ -22,6 +22,6 @@ export default {
 </script>
 
 <template>
-  <div class="fixed bg-gray-800 opacity-50 h-screen w-full z-30" :class="{ 'hidden': overlayMode }" @click="closeModal"></div>
+  <div class="fixed bg-gray-500 opacity-50 h-screen w-full z-30" :class="{ 'hidden': overlayMode }" @click="closeModal"></div>
 </template>
 
