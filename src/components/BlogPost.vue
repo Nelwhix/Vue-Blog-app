@@ -34,7 +34,7 @@ export default {
             </router-link>
         </div>
         <div class="col order-first md:order-last">
-            <img v-if="post.isHero" :src="`https://nelson-blog-app.netlify.app/.netlify/large-media/blogphotos/${post.coverImg}.jpg`">
+            <img v-if="post.isHero" :src="`https://nelson-blog-app.netlify.app/.netlify/large-media/${post.coverImg}.jpg`">
             <img v-else :src="`../src/assets/blogphotos/${post.blogImg}.jpg`" class="w-full">
         </div>
     </div>
