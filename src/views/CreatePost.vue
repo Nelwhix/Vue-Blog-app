@@ -5,24 +5,19 @@ import { useBlogStore } from "../store/blogStore.js";
 import { mapWritableState } from "pinia";
 import BlogCoverPreview from "../components/BlogCoverPreview.vue";
 import Overlay from "../components/Overlay.vue";
-import { Quill } from '@vueup/vue-quill';
 import BlotFormatter from 'quill-blot-formatter'
-Quill.register('modules/blotFormatter', BlotFormatter)
+import ImageUploader from 'quill-image-uploader'
 
-const quill = new Quill(..., {
-  modules: {
-    ...
-    blotFormatter: {
-
-    }
-  }
-});
 
 export default {
   name: "CreatePost",
   data() {
     return {
       file: null,
+      modules: {
+        name: 'blotFormatter',
+        module: BlotFormatter, ImageUploader
+      }
     }
   },
   components: {
@@ -42,7 +37,7 @@ export default {
     }
   },
   computed: {
-    ...mapWritableState(useBlogStore, ['blogPhotoName', 'blogPhotoUrl', 'previewMode', 'overlayMode', 'blogHTML'])
+    ...mapWritableState(useBlogStore, ['blogPhotoName', 'blogPhotoUrl', 'previewMode', 'overlayMode', 'blogHTML', 'blogTitle'])
   }
 }
 </script>
@@ -52,14 +47,14 @@ export default {
     <BlogCoverPreview :class="{ 'hidden': previewMode }" />
     <Overlay />
     <div>
-      <input type="text" placeholder="Enter Blog Title" class="mb-4 pl-2 focus:outline-0 border-b border-black">
+      <input type="text" v-model="blogTitle" placeholder="Enter Blog Title" class="mb-4 pl-2 focus:outline-0 border-b border-black">
       <div class="mb-4">
         <label for="blogPhoto" class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70">Upload Cover Photo</label>
         <input type="file" id="blogPhoto" @change="fileChange" ref="blogPhoto" accept=".png, .jpg, .jpeg" class="mb-3 pl-2 focus:outline-0 border-b border-black hidden"/>
         <button type="button" class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70 disabled:opacity-50" ref="previewbtn" @click="showPreviewMenu" >Preview Photo</button>
         <span>File Chosen: {{ blogPhotoName }}</span>
       </div>
-      <QuillEditor v-model:content="blogHTML" contentType="html" theme="snow" toolbar="full"/>
+      <QuillEditor :modules="modules" v-model:content="blogHTML" contentType="html" theme="snow" toolbar="full"/>
     </div>
     <div class="mt-5">
       <button class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70">Publish Post</button>

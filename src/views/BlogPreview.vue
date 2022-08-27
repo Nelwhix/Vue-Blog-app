@@ -7,19 +7,14 @@ export default {
   computed: {
     ...mapState(useBlogStore, ['blogHTML', 'blogPhotoUrl', 'blogTitle'])
   },
-  methods: {
-    click() {
-      console.log(this.blogHTML)
-    }
-  }
 }
 </script>
 
 <template>
   <section>
+    <h2>{{ this.blogTitle }}</h2>
     <img class="w-[20%]" :src="blogPhotoUrl" alt="blogcoverphoto">
     <div class="post-content ql-editor" v-html="blogHTML"></div>
-    <button @click="click">Click me</button>
   </section>
 </template>
 
