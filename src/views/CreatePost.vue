@@ -5,7 +5,8 @@ import { useBlogStore } from "../store/blogStore.js";
 import { mapWritableState } from "pinia";
 import BlogCoverPreview from "../components/BlogCoverPreview.vue";
 import Overlay from "../components/Overlay.vue";
-import BlotFormatter from 'quill-blot-formatter'
+import BlotFormatter from 'quill-blot-formatter';
+import {mapActions} from "pinia";
 //import ImageUploader from 'quill-image-uploader'
 
 
@@ -15,16 +16,22 @@ export default {
     return {
       file: null,
       error: false,
+      errorMsg: '',
       modules: {
         name: 'blotFormatter',
         module: BlotFormatter,
-      }
+      },
+      serverErrors: {},
     }
   },
   components: {
     QuillEditor, BlogCoverPreview, Overlay
   },
+  computed: {
+    ...mapWritableState(useBlogStore, ['blogPhotoName', 'blogPhotoUrl', 'previewMode', 'overlayMode', 'blogHTML', 'blogTitle'])
+  },
   methods: {
+    ...mapActions(useBlogStore, ['publishPost']),
     fileChange() {
       this.file = this.$refs.blogPhoto.files[0]
       this.blogPhotoName = this.file.name
@@ -35,10 +42,18 @@ export default {
       this.previewMode = false
       this.overlayMode = false
     },
-    publishPost() {
-      if (this.blogTitle.length !== 0 && this.blogHTML.length !== 0) {
+    submit() {
+      if (this.blogTitle.length !== 0 && this.blogHTML) {
+         console.log(this.blogTitle)
+         console.log(this.blogHTML)
         if (this.file) {
-
+          const form = {
+                blogTitle: this.blogTitle,
+                coverPhotoName: this.blogPhotoName,
+                blogHTML: this.blogHTML,
+                blogPhoto: this.file,
+          }
+          this.publishPost(form, this.serverErrors)
         }
         this.error = true;
         this.errorMsg = "Please ensure you uploaded a cover photo!"
@@ -53,9 +68,6 @@ export default {
       }, 5000)
     }
   },
-  computed: {
-    ...mapWritableState(useBlogStore, ['blogPhotoName', 'blogPhotoUrl', 'previewMode', 'overlayMode', 'blogHTML', 'blogTitle'])
-  }
 }
 </script>
 
@@ -65,7 +77,7 @@ export default {
     <Overlay />
     <div>
       <div v-if="error" class="rounded-md text-white pl-2 py-2 text-sm bg-zinc-800">
-        Error: Please ensure Blog Title & Blog post has been filled
+        {{ errorMsg }}
       </div>
       <input type="text" v-model="blogTitle" placeholder="Enter Blog Title" class="mb-4 pl-2 focus:outline-0 border-b border-black">
       <div class="mb-4">
@@ -77,7 +89,7 @@ export default {
       <QuillEditor :modules="modules" v-model:content="blogHTML" contentType="html" theme="snow" toolbar="full"/>
     </div>
     <div class="mt-5">
-      <button @click="publishPost" class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70">Publish Post</button>
+      <button @click="submit" class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70">Publish Post</button>
       <router-link :to="{ name: 'BlogPreview' }" class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70">Post Preview</router-link>
     </div>
   </section>

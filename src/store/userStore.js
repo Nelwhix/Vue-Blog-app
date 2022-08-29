@@ -12,9 +12,6 @@ export const useUserStore = defineStore('userStore', {
             isLoading: false,
         }
     },
-    getters: {
-        hasUserData: state => Object.keys(state.userData).length > 0
-    },
     actions: {
         getData() {
             axios.get('/user')
@@ -27,16 +24,18 @@ export const useUserStore = defineStore('userStore', {
                     }
                 })
         },
-        async register(form) {
+        async register(form, serverErrors) {
+            this.isLoading = true
             await csrf()
 
             axios.post('/register', form)
                 .then(res => {
+                    this.getData()
                     this.$router.push({name: 'home'})
                 })
                 .catch(err => {
-                    if (err.response.data.errors) {
-                        console.log(Object.values(err.response.data.errors).flat())
+                    if (err.response) {
+                        serverErrors.errorArray = Object.values(err.response.data.errors).flat()
                     }
                 })
                 .then(() => {

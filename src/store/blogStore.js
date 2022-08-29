@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
+import axios from "../lib/axios.js";
+import {useUserStore} from "./userStore.js";
 
+const csrf = () => axios.get('/sanctum/csrf-cookie')
 
 export const useBlogStore = defineStore('blogStore', {
     state: () => ({
@@ -19,5 +22,25 @@ export const useBlogStore = defineStore('blogStore', {
         signUpMode: false,
         overlayMode: true,
         previewMode: true,
-    })
+    }),
+    actions: {
+        async publishPost(form, serverErrors) {
+            const userStore = useUserStore()
+            userStore.isLoading = true
+            await csrf()
+
+            axios.post('/upload-post', form)
+                .then(res => {
+                    console.log(res)
+                })
+                .catch(err => {
+                    if (err.response) {
+                        serverErrors.errorArray = Object.values(err.response.data.errors).flat()
+                    }
+                })
+                .then(() => {
+                    userStore.isLoading = false
+                })
+        }
+    }
 })
