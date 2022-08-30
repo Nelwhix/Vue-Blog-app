@@ -7,7 +7,7 @@ import BlogCoverPreview from "../components/BlogCoverPreview.vue";
 import Overlay from "../components/Overlay.vue";
 import BlotFormatter from 'quill-blot-formatter';
 import {mapActions} from "pinia";
-//import ImageUploader from 'quill-image-uploader'
+import ImageUploader from 'quill-image-uploader';
 
 
 export default {
@@ -17,10 +17,6 @@ export default {
       file: null,
       error: false,
       errorMsg: '',
-      modules: {
-        name: 'blotFormatter',
-        module: BlotFormatter,
-      },
       serverErrors: {},
     }
   },
@@ -31,7 +27,7 @@ export default {
     ...mapWritableState(useBlogStore, ['blogPhotoName', 'blogPhotoUrl', 'previewMode', 'overlayMode', 'blogHTML', 'blogTitle'])
   },
   methods: {
-    ...mapActions(useBlogStore, ['publishPost']),
+    ...mapActions(useBlogStore, ['publishPost', 'uploadPostImg']),
     fileChange() {
       this.file = this.$refs.blogPhoto.files[0]
       this.blogPhotoName = this.file.name
@@ -67,6 +63,22 @@ export default {
         this.error = false;
       }, 5000)
     }
+  },
+  setup: () => {
+    const modules = [
+      {
+        name: 'blotFormatter',
+        module: BlotFormatter,
+      },
+      {
+        name: 'imageUploader',
+        module: ImageUploader,
+        upload: (file) => {
+          this.uploadPostImg(file)
+        } 
+      }
+    ]
+    return { modules }
   },
 }
 </script>

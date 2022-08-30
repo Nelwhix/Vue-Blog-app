@@ -19,7 +19,7 @@ export const useUserStore = defineStore('userStore', {
                     this.userData = res.data
                 })
                 .catch(err => {
-                    if (err.response.data.errors) {
+                    if (err.response) {
                         console.log(Object.values(err.response.data.errors).flat())
                     }
                 })
