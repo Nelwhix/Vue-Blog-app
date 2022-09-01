@@ -1,19 +1,23 @@
 <script>
-import { mapWritableState } from "pinia";
-import { useBlogStore } from "../store/blogStore.js";
+import {mapWritableState} from "pinia";
+import {useBlogStore} from "../store/blogStore.js";
+
 
 export default {
     name: "BlogPost",
     props: ['post'],
     computed: {
       ...mapWritableState(useBlogStore, ['signInMode', 'overlayMode', 'mobileNav']),
+      getImageUrl() {
+        return new URL(`../src/assets/blogphotos/${this.post.blogImg}.jpg`, import.meta.url).href;
+      }
     },
     methods: {
       openModal() {
         this.signInMode = false
         this.overlayMode = false
       }
-    }
+    },
 };
 </script>
 
@@ -34,8 +38,8 @@ export default {
             </router-link>
         </div>
         <div class="col order-first md:order-last">
-            <img v-if="post.isHero" :src="`https://nelson-blog-app.netlify.app/.netlify/large-media/${post.coverImg}.jpg`">
-            <img v-else :src="`../src/assets/blogphotos/${post.blogImg}.jpg`" class="w-full">
+            <img v-if="post.isHero" :src="getImageUrl">
+            <img v-else :src="getImageUrl" class="w-full">
         </div>
     </div>
     <hr class="hidden md:block" />
