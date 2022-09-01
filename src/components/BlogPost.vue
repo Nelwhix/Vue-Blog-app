@@ -8,12 +8,6 @@ export default {
     props: ['post'],
     computed: {
       ...mapWritableState(useBlogStore, ['signInMode', 'overlayMode', 'mobileNav']),
-      getImageUrl() {
-        if (this.post.isHero) {
-          return new URL(`../assets/blogphotos/${this.post.coverImg}.jpg`, import.meta.url).href;
-        }
-        return new URL(`../assets/blogphotos/${this.post.blogImg}.jpg`, import.meta.url).href;
-      }
     },
     methods: {
       openModal() {
@@ -41,8 +35,8 @@ export default {
             </router-link>
         </div>
         <div class="col order-first md:order-last">
-            <img v-if="post.isHero" :src="getImageUrl">
-            <img v-else :src="getImageUrl" class="w-full">
+          <img v-if="post.isHero" src="https://i.ibb.co/pQNWZCp/personcoding.jpg" alt="personcoding">
+            <img v-else :src="`https://i.ibb.co/${post.blogImg}.jpg`" class="w-full">
         </div>
     </div>
     <hr class="hidden md:block" />
