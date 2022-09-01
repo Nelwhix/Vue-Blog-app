@@ -9,7 +9,10 @@ export default {
     computed: {
       ...mapWritableState(useBlogStore, ['signInMode', 'overlayMode', 'mobileNav']),
       getImageUrl() {
-        return new URL(`../src/assets/blogphotos/${this.post.blogImg}.jpg`, import.meta.url).href;
+        if (this.post.isHero) {
+          return new URL(`../assets/blogphotos/${this.post.coverImg}.jpg`, import.meta.url).href;
+        }
+        return new URL(`../assets/blogphotos/${this.post.blogImg}.jpg`, import.meta.url).href;
       }
     },
     methods: {
