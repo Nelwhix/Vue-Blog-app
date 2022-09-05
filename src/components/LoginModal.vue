@@ -1,14 +1,13 @@
 <script>
 import useVuelidate from '@vuelidate/core';
 import {required, helpers, minLength, email} from '@vuelidate/validators';
-import {decodeCredential, GoogleLogin} from "vue3-google-login";
 import {mapActions, mapWritableState} from "pinia";
 import { useBlogStore } from "../store/blogStore.js";
 import { useUserStore } from "../store/userStore.js";
+import { decodeCredential } from 'vue3-google-login';
 
 export default {
   name: "LoginModal",
-  components: { GoogleLogin },
   data () {
     return {
       v$: useVuelidate(),
@@ -34,7 +33,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useUserStore, ['login']),
+    ...mapActions(useUserStore, ['login', 'glogin']),
     signIn() {
       this.v$.$validate();
       if (!this.v$.$error) {
@@ -42,7 +41,14 @@ export default {
       }
     },
     gSignIn(res) {
-      const userData = decodeCredential(res.credential)
+      const gUserData = decodeCredential(res.credential)
+      
+      const gform = {
+        id: gUserData.sub,
+        name: gUserData.name,
+        email: gUserData.email,
+      }
+      this.glogin(gform)
     },
     closeModal() {
       this.signInMode = true
@@ -50,7 +56,8 @@ export default {
     }
   },
   computed: {
-    ...mapWritableState(useBlogStore, ['signInMode', 'overlayMode'])
+    ...mapWritableState(useBlogStore, ['signInMode', 'overlayMode']),
+    ...mapWritableState(useUserStore, ['userData'])
   }
 }
 </script>
@@ -79,7 +86,7 @@ export default {
         <button type="submit" class="transition-colors bg-gray-800 px-2 py-1 text-white rounded-full hover:text-teal-300">
           Sign In
         </button>
-        <router-link :to="{ name: 'Register' }" class="text-sm underline mt-2 hover:text-teal-400">Create an account</router-link>
+        <router-link @click="closeModal" :to="{ name: 'Register' }" class="text-sm underline mt-2 hover:text-teal-400">Create an account</router-link>
       </div>
       <div class="text-center">
         <h2 class="mb-3 dark:text-white">OR:</h2>
@@ -88,4 +95,5 @@ export default {
     </form>
   </div>
 </template>
+
 

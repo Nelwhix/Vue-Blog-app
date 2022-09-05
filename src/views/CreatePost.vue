@@ -2,7 +2,7 @@
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { useBlogStore } from "../store/blogStore.js";
-import { mapWritableState } from "pinia";
+import { mapState, mapWritableState } from "pinia";
 import BlogCoverPreview from "../components/BlogCoverPreview.vue";
 import Overlay from "../components/Overlay.vue";
 import BlotFormatter from 'quill-blot-formatter';
@@ -24,7 +24,7 @@ export default {
     QuillEditor, BlogCoverPreview, Overlay
   },
   computed: {
-    ...mapWritableState(useBlogStore, ['blogPhotoName', 'blogPhotoUrl', 'previewMode', 'overlayMode', 'blogHTML', 'blogTitle'])
+    ...mapWritableState(useBlogStore, ['blogPhotoName', 'blogPhotoUrl', 'previewMode', 'overlayMode', 'blogHTML', 'blogTitle']),
   },
   methods: {
     ...mapActions(useBlogStore, ['publishPost', 'uploadPostImg']),
@@ -74,7 +74,11 @@ export default {
         name: 'imageUploader',
         module: ImageUploader,
         upload: (file) => {
-          this.uploadPostImg(file)
+          return new Promise((resolve, reject) => {
+            resolve(
+              this.uploadPostImg(this.file)
+            )
+          })
         } 
       }
     ]
@@ -95,7 +99,7 @@ export default {
       <div class="mb-4">
         <label for="blogPhoto" class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70">Upload Cover Photo</label>
         <input type="file" id="blogPhoto" @change="fileChange" ref="blogPhoto" accept=".png, .jpg, .jpeg" class="mb-3 pl-2 focus:outline-0 border-b border-black hidden"/>
-        <button type="button" class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70 disabled:opacity-50" ref="previewbtn" @click="showPreviewMenu" disabled>Preview Photo</button>
+        <button type="button" class="rounded-full bg-zinc-800 text-white p-2 text-sm mt-2 mr-5 hover:opacity-70 disabled:opacity-50" ref="previewbtn" @click="showPreviewMenu" disabled>Preview Photo</button>
         <span>File Chosen: {{ blogPhotoName }}</span>
       </div>
       <QuillEditor :modules="modules" v-model:content="blogHTML" contentType="html" theme="snow" toolbar="full"/>

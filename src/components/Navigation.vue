@@ -66,6 +66,9 @@ export default {
                 </ul>
             </div>
           <div class="flex gap-2">
+            <!-- <button v-if="userData.imageURL" @click="toggleProfileMenu">
+              <img :src="userData.imageURL">
+            </button> -->
             <button v-if="userData.name" class="p-1 w-10 rounded-full bg-zinc-800 dark:bg-white text-white dark:text-black" @click="toggleProfileMenu">
               <span class="text-xl text-white dark:text-black">{{ getUserInitials }}</span>
             </button>

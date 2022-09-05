@@ -52,7 +52,7 @@ export default {
 </script>
 
 <template>
-  <div class="bg-gray-200 p-5 font-header md:h-[70vh]">
+  <div class="bg-gray-200 p-5 font-header md:h-[75vh]">
     <h1 class="text-center text-xl font-semibold">Sign Up</h1>
     <form action="" class="mt-5" @submit.prevent="signUp">
       <div class="my-2">
