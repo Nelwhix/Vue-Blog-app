@@ -42,13 +42,13 @@ export default {
     submitPost() {
       if (this.blogTitle.length !== 0 && this.blogHTML) {
         if (this.file) {
-          const form = {
-                blogTitle: this.blogTitle,
-                coverPhotoName: this.blogPhotoName,
-                blogHTML: this.blogHTML,
-                blogPhoto: this.file,
-          }
-          this.publishPost(form, this.serverErrors)
+          const formData = new FormData();
+          formData.append('blogTitle', this.blogTitle)
+          formData.append('coverPhotoName', this.blogPhotoName)
+          formData.append('blogHTML', this.blogHTML)
+          formData.append('blogPhoto', this.file)
+
+          this.publishPost(formData, this.serverErrors)
         } else {
             this.error = true;
             this.errorMsg = "Please ensure you uploaded a cover photo!"
