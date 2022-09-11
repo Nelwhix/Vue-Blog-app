@@ -33,32 +33,14 @@ export const useBlogStore = defineStore('blogStore', {
                 .then(res => {
                     console.log(res)
                 })
-                .catch(err => {
-                    if (err.response) {
-                        serverErrors.errorArray = Object.values(err.response.data.errors).flat()
+                .catch(error => {
+                    if (error.response) {
+                        serverErrors.errorArray = error.response.data.message
                     }
                 })
                 .then(() => {
                     userStore.isLoading = false
                 })
         },
-        async uploadPostImg(file) {
-            const userStore = useUserStore()
-            userStore.isLoading = true
-            await csrf()
-
-            axios.post('/upload-image', file)
-                .then(res => {
-                    console.log(res)
-                })
-                .catch(err => {
-                    if (err.response) {
-                        serverErrors.errorArray = Object.values(err.response.data.errors).flat()
-                    }
-                })
-                .then(() => {
-                    userStore.isLoading = false
-                })
-        }
     }
 })
