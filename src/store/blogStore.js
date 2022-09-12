@@ -15,32 +15,12 @@ export const useBlogStore = defineStore('blogStore', {
         blogTitle: "",
         blogHTML: "",
         blogPhotoName: "",
-        blogPhotoUrl: null,
+        blogPhotoFileUrl: null,
+        blogPhotoPreview: null,
         mobileNav: true,
         editMode: true,
         signInMode: true,
         signUpMode: false,
         overlayMode: true,
-        previewMode: true,
-    }),
-    actions: {
-        async publishPost(form, serverErrors) {
-            const userStore = useUserStore()
-            userStore.isLoading = true
-            await csrf()
-
-            axios.post('/upload-post', form)
-                .then(res => {
-                    console.log(res)
-                })
-                .catch(error => {
-                    if (error.response) {
-                        serverErrors.errorArray = error.response.data.message
-                    }
-                })
-                .then(() => {
-                    userStore.isLoading = false
-                })
-        },
-    }
+    })
 })
