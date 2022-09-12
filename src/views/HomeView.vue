@@ -20,13 +20,13 @@ export default {
                 {
                     title: "Phpstorm vs Vscode for Web development",
                     blogHTML: "Due to peer pressure, I left VSCode to start using Phpstorm. It has been an interesting experience...",
-                    blogImg: "phpvscode",
+                    blogImg: "qsXW19K/phpvscode",
                     isHero: false,
                 },
                 {
                     title: "Importance of community in building a Tech career",
                     blogHTML: "You cannot build a career in web development without the support of others, in this article I explain why you need others and some excerpts from my personal journey",
-                    blogImg: "community",
+                    blogImg: "vBqbH3n/community",
                     isHero: false,
                 }
             ],

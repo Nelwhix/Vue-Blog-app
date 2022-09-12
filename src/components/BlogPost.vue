@@ -34,8 +34,8 @@ export default {
             </router-link>
         </div>
         <div class="col order-first md:order-last">
-            <img v-if="post.isHero" :src="`../src/assets/blogphotos/${post.coverImg}.jpg`" alt="" class="">
-            <img v-else :src="`../src/assets/blogphotos/${post.blogImg}.jpg`" alt="" class="w-full">
+            <img v-if="post.isHero" src="https://i.ibb.co/pQNWZCp/personcoding.jpg" alt="personcoding">
+            <img v-else :src="`https://i.ibb.co/${post.blogImg}.jpg`" class="w-full">
         </div>
     </div>
     <hr class="hidden md:block" />

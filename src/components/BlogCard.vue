@@ -13,7 +13,7 @@ export default {
 <template>
     <div>
         <div class="transition-transform ease-in-out card hover:-rotate-1 dark:bg-gray-800 dark:text-white">
-            <img :src="`../src/assets/blogphotos/${post.blogImg}.jpg`" alt="" class="h-48 rounded-t-sm w-full bg-cover">
+            <img :src="`https://i.ibb.co/${post.blogImg}.jpg`" alt="" class="h-48 rounded-t-sm w-full bg-cover">
             <div class="absolute flex gap-3 top-2 right-1 dark:text-black" :class="{ 'hidden': editMode }">
                 <button class="bg-white rounded-full p-1 hover:bg-gray-700 hover:text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
