@@ -35,7 +35,7 @@ export default {
             </router-link>
         </div>
         <div class="col order-first md:order-last">
-          <img v-if="post.isHero" src="https://i.ibb.co/pQNWZCp/personcoding.jpg" alt="personcoding">
+            <img v-if="post.isHero" src="https://i.ibb.co/pQNWZCp/personcoding.jpg" alt="personcoding">
             <img v-else :src="`https://i.ibb.co/${post.blogImg}.jpg`" class="w-full">
         </div>
     </div>

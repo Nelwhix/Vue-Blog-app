@@ -5,10 +5,10 @@ import { useBlogStore } from "../store/blogStore.js";
 import { mapWritableState } from "pinia";
 import BlogCoverPreview from "../components/BlogCoverPreview.vue";
 import Overlay from "../components/Overlay.vue";
-import BlotFormatter from 'quill-blot-formatter';
+//import BlotFormatter from 'quill-blot-formatter';
 import {mapActions} from "pinia";
-import ImageUploader from 'quill-image-uploader';
-import axios from '../lib/axios';
+//import ImageUploader from 'quill-image-uploader';
+//import axios from '../lib/axios';
 
 
 export default {
@@ -42,13 +42,12 @@ export default {
     submitPost() {
       if (this.blogTitle.length !== 0 && this.blogHTML) {
         if (this.file) {
-          const form = {
-                blogTitle: this.blogTitle,
-                coverPhotoName: this.blogPhotoName,
-                blogHTML: this.blogHTML,
-                blogPhoto: this.file,
-          }
-          this.publishPost(form, this.serverErrors)
+          const formData = new FormData();
+          formData.append('blogTitle', this.blogTitle)
+          formData.append('coverPhotoName', this.blogPhotoName)
+          formData.append('blogHTML', this.blogHTML)
+          formData.append('blogPhoto', this.file)
+          this.publishPost(formData, this.serverErrors)
         } else {
             this.error = true;
             this.errorMsg = "Please ensure you uploaded a cover photo!"
@@ -65,38 +64,38 @@ export default {
       }
     }
   },
-  setup: () => {
-    const modules = [
-      {
-        name: 'blotFormatter',
-        module: BlotFormatter,
-      },
-      {
-        name: 'imageUploader',
-        module: ImageUploader,
-        options: {
-          upload: file => {
-            return new Promise(async (resolve, reject) => {
-              await axios.get('/sanctum/csrf-cookie')
-              const formData = new FormData();
-              formData.append("postImages", file);
 
-              axios.post('/upload-image', formData)
-              .then(res => {
-                console.log(res)
-                resolve(res.data.url);
-              })
-              .catch(err => {
-                reject("Upload failed");
-                console.error("Error:", err)
-              })
-            })
-          }
-        }
-      }
-    ]
-    return { modules }
-  },
+  // setup: () => {
+  //   const modules = [
+  //     {
+  //       name: 'blotFormatter',
+  //       module: BlotFormatter,
+  //     },
+  //     {
+  //       name: 'imageUploader',
+  //       module: ImageUploader,
+  //       options: {
+  //         upload: file => {
+  //           return new Promise(async (resolve, reject) => {
+  //             await axios.get('/sanctum/csrf-cookie')
+  //             const formData = new FormData();
+  //             formData.append("postImages", file);
+  //             axios.post('/upload-image', formData)
+  //             .then(res => {
+  //               console.log(res)
+  //               resolve(res.data.url);
+  //             })
+  //             .catch(err => {
+  //               reject("Upload failed");
+  //               console.error("Error:", err)
+  //             })
+  //           })
+  //         }
+  //       }
+  //     }
+  //   ]
+  //   return { modules }
+  // }
 }
 </script>
 
@@ -118,7 +117,7 @@ export default {
         <button type="button" class="rounded-full bg-zinc-800 text-white p-2 text-sm mt-2 mr-5 hover:opacity-70 disabled:opacity-50" ref="previewbtn" @click="showPreviewMenu" disabled>Preview Photo</button>
         <span>File Chosen: {{ blogPhotoName }}</span>
       </div>
-      <QuillEditor :modules="modules" v-model:content="blogHTML" contentType="html" theme="snow" toolbar="full"/>
+      <QuillEditor v-model:content="blogHTML" contentType="html" theme="snow" toolbar="full"/>
     </div>
     <div class="mt-5">
       <button @click="submitPost" class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70">Publish Post</button>
@@ -131,18 +130,5 @@ export default {
   .ql-container {
     height: 50vh;
     overflow: scroll;
-  }
-
-  .serverErrorMessage {
-    animation: dissappear 5s;
-  }
-
-  @keyframes dissappear {
-    from {
-      display:block;
-    }
-    to {
-      display: none;
-    }
   }
 </style>
