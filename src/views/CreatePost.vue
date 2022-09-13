@@ -4,7 +4,7 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { useBlogStore } from "../store/blogStore.js";
 import { mapWritableState } from "pinia";
 import Overlay from "../components/Overlay.vue";
-import BlogCoverPreview from '../components/BlogCoverPreview.vue';
+import BlogCoverPreviewVue from '../components/BlogCoverPreview.vue';
 //import BlotFormatter from 'quill-blot-formatter';
 import {mapActions} from "pinia";
 //import ImageUploader from 'quill-image-uploader';
@@ -22,7 +22,7 @@ export default {
     }
   },
   components: {
-    QuillEditor, Overlay, BlogCoverPreview
+    QuillEditor, Overlay, BlogCoverPreviewVue
   },
   computed: {
     ...mapWritableState(useBlogStore, ['blogPhotoName', 'blogPhotoUrl', 'previewMode', 'overlayMode', 'blogHTML', 'blogTitle']),
