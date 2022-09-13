@@ -3,8 +3,8 @@ import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { useBlogStore } from "../store/blogStore.js";
 import { mapWritableState } from "pinia";
-import BlogCoverPreview from "../components/BlogCoverPreview.vue";
 import Overlay from "../components/Overlay.vue";
+import blogCoverPreview from '../components/blogCoverPreview.vue';
 //import BlotFormatter from 'quill-blot-formatter';
 import {mapActions} from "pinia";
 //import ImageUploader from 'quill-image-uploader';
@@ -22,7 +22,7 @@ export default {
     }
   },
   components: {
-    QuillEditor, BlogCoverPreview, Overlay
+    QuillEditor, Overlay, blogCoverPreview
   },
   computed: {
     ...mapWritableState(useBlogStore, ['blogPhotoName', 'blogPhotoUrl', 'previewMode', 'overlayMode', 'blogHTML', 'blogTitle']),
@@ -101,7 +101,7 @@ export default {
 
 <template>
   <section class="my-5 p-3 font-body md:px-10">
-    <BlogCoverPreview :class="{ 'hidden': previewMode }" />
+    <blogCoverPreview :class="{ 'hidden': previewMode }"/>
     <Overlay />
     <div>
       <div v-if="error" class="rounded-md text-white pl-2 py-2 text-sm bg-zinc-800">

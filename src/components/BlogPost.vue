@@ -1,6 +1,7 @@
 <script>
-import { mapWritableState } from "pinia";
-import { useBlogStore } from "../store/blogStore.js";
+import {mapWritableState} from "pinia";
+import {useBlogStore} from "../store/blogStore.js";
+
 
 export default {
     name: "BlogPost",
@@ -13,7 +14,7 @@ export default {
         this.signInMode = false
         this.overlayMode = false
       }
-    }
+    },
 };
 </script>
 
