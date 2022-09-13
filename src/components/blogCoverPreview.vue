@@ -23,7 +23,7 @@
         </svg>
       </button>
       <div class="m-5">
-        <img :src="blogPhotoUrl" class="object-scale-down"/>
+        <img :src="blogPhotoUrl"/>
       </div>
     </div>
   </template>
