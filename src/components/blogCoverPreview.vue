@@ -2,7 +2,7 @@
   import { useBlogStore } from "../store/blogStore.js";
   import { mapWritableState } from "pinia";
   export default {
-    name: "BlogCoverPreview",
+    name: "blogCoverPreview",
     computed: {
       ...mapWritableState(useBlogStore, ['previewMode', 'overlayMode', 'blogPhotoUrl'])
     },
