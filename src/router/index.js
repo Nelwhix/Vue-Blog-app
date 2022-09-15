@@ -6,6 +6,7 @@ import Register from "../views/Register.vue";
 import Profile from "../views/Profile.vue";
 import CreatePost from "../views/CreatePost.vue";
 import BlogPreview from "../views/BlogPreview.vue";
+import PostView from "../views/PostView.vue";
 
 
 const routes = [
@@ -57,6 +58,14 @@ const routes = [
             title: 'Preview Blog Post'
         }
     },
+    {
+        path: '/view-post',
+        name: 'PostView',
+        component: PostView,
+        meta: {
+            title: 'View Blog Post'
+        }
+    }
 ]
 
 const router = createRouter({

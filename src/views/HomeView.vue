@@ -16,24 +16,10 @@ export default {
                 isHero: true,
                 coverImg: "personcoding"
             },
-            sampleBlogPost: [
-                {
-                    title: "Phpstorm vs Vscode for Web development",
-                    blogHTML: "Due to peer pressure, I left VSCode to start using Phpstorm. It has been an interesting experience...",
-                    blogImg: "qsXW19K/phpvscode",
-                    isHero: false,
-                },
-                {
-                    title: "Importance of community in building a Tech career",
-                    blogHTML: "You cannot build a career in web development without the support of others, in this article I explain why you need others and some excerpts from my personal journey",
-                    blogImg: "vBqbH3n/community",
-                    isHero: false,
-                }
-            ],
         }
     },
     computed: {
-        ...mapState(useBlogStore, ['sampleBlogCards']),
+        ...mapState(useBlogStore, ['blogPosts']),
     } 
 };
 </script>
@@ -42,12 +28,12 @@ export default {
     <div class="font-body">
         <div class="hero-wrapper">
             <BlogPost :post="heroSection"/>
-            <BlogPost v-for="(post, index) in sampleBlogPost" :key="index" :post="post"/>
+            <BlogPost v-for="(post, index) in blogPosts.slice(1,3)" :key="index" :post="post"/>
         </div>
         <div class="bg-gray-200 p-8">
             <h3 class="font-header font-medium">View more recent posts</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mt-10 font-header">
-                <BlogCard v-for="(post, index) in sampleBlogCards" :key="index" :post="post"/>
+                <BlogCard v-for="(post, index) in blogPosts" :key="index" :post="post"/>
             </div>
         </div>
         <div>

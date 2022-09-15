@@ -5,10 +5,11 @@ import { useBlogStore } from "../store/blogStore.js";
 import { mapWritableState } from "pinia";
 import Overlay from "../components/Overlay.vue";
 import blogCoverPreview from '../components/blogCoverPreview.vue';
-//import BlotFormatter from 'quill-blot-formatter';
+import BlotFormatter from 'quill-blot-formatter';
 import {mapActions} from "pinia";
-//import ImageUploader from 'quill-image-uploader';
-//import axios from '../lib/axios';
+import ImageUploader from 'quill-image-uploader';
+import axios from '../lib/axios';
+import { useUserStore } from "../store/userStore.js"
 
 
 export default {
@@ -26,6 +27,7 @@ export default {
   },
   computed: {
     ...mapWritableState(useBlogStore, ['blogPhotoName', 'blogPhotoUrl', 'previewMode', 'overlayMode', 'blogHTML', 'blogTitle']),
+    ...mapWritableState(useUserStore, ['userData'])
   },
   methods: {
     ...mapActions(useBlogStore, ['publishPost']),
@@ -65,37 +67,37 @@ export default {
     }
   },
 
-  // setup: () => {
-  //   const modules = [
-  //     {
-  //       name: 'blotFormatter',
-  //       module: BlotFormatter,
-  //     },
-  //     {
-  //       name: 'imageUploader',
-  //       module: ImageUploader,
-  //       options: {
-  //         upload: file => {
-  //           return new Promise(async (resolve, reject) => {
-  //             await axios.get('/sanctum/csrf-cookie')
-  //             const formData = new FormData();
-  //             formData.append("postImages", file);
-  //             axios.post('/upload-image', formData)
-  //             .then(res => {
-  //               console.log(res)
-  //               resolve(res.data.url);
-  //             })
-  //             .catch(err => {
-  //               reject("Upload failed");
-  //               console.error("Error:", err)
-  //             })
-  //           })
-  //         }
-  //       }
-  //     }
-  //   ]
-  //   return { modules }
-  // }
+  setup: () => {
+    const modules = [
+      {
+        name: 'blotFormatter',
+        module: BlotFormatter,
+      },
+      {
+        name: 'imageUploader',
+        module: ImageUploader,
+        options: {
+          upload: file => {
+            return new Promise(async (resolve, reject) => {
+              await axios.get('/sanctum/csrf-cookie')
+              const formData = new FormData();
+              formData.append("postImages", file);
+              axios.post('/upload-image', formData)
+              .then(res => {
+                console.log(res)
+                resolve(res.data.url);
+              })
+              .catch(err => {
+                reject("Upload failed");
+                console.error("Error:", err)
+              })
+            })
+          }
+        }
+      }
+    ]
+    return { modules }
+  }
 }
 </script>
 
@@ -117,7 +119,7 @@ export default {
         <button type="button" class="rounded-full bg-zinc-800 text-white p-2 text-sm mt-2 mr-5 hover:opacity-70 disabled:opacity-50" ref="previewbtn" @click="showPreviewMenu" disabled>Preview Photo</button>
         <span>File Chosen: {{ blogPhotoName }}</span>
       </div>
-      <QuillEditor v-model:content="blogHTML" contentType="html" theme="snow" toolbar="full"/>
+      <QuillEditor :modules="modules" v-model:content="blogHTML" contentType="html" theme="snow" toolbar="full"/>
     </div>
     <div class="mt-5">
       <button @click="submitPost" class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70">Publish Post</button>

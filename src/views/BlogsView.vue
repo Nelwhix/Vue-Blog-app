@@ -14,7 +14,7 @@ export default {
       }
     },
     computed: {
-        ...mapWritableState(useBlogStore, ['sampleBlogCards', 'editMode'])
+        ...mapWritableState(useBlogStore, ['editMode', 'blogPosts'])
     },
     methods: {
       edit() {
@@ -36,7 +36,7 @@ export default {
     </div>
     <div class="bg-gray-200 p-8">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-10 font-header">
-        <BlogCard v-for="(post, index) in sampleBlogCards" :key="index" :post="post"/>
+        <BlogCard v-for="(post, index) in blogPosts" :key="index" :post="post"/>
       </div>
     </div>
   </div>

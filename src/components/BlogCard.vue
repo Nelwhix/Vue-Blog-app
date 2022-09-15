@@ -13,7 +13,7 @@ export default {
 <template>
     <div>
         <div class="transition-transform ease-in-out card hover:-rotate-1 dark:bg-gray-800 dark:text-white">
-            <img :src="`https://i.ibb.co/${post.blogImg}.jpg`" alt="" class="h-48 rounded-t-sm w-full bg-cover">
+            <img :src="post.coverPhotoURL" alt="" class="h-48 rounded-t-sm w-full bg-cover">
             <div class="absolute flex gap-3 top-2 right-1 dark:text-black" :class="{ 'hidden': editMode }">
                 <button class="bg-white rounded-full p-1 hover:bg-gray-700 hover:text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -28,8 +28,8 @@ export default {
                 </button>
             </div>
             <div class="p-5">
-                <h3 class="text-md">{{ post.title }}</h3>
-                <p class="my-1 text-sm">{{ post.postDate }}</p>
+                <h3 class="text-md">{{ post.blogTitle }}</h3>
+                <p class="my-1 text-sm">{{ post.created_at }}</p>
                 <router-link class="link" to="#">
                     VIEW THE POST <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />

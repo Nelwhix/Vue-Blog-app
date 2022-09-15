@@ -53,7 +53,7 @@ export default {
 
 <template>
     <header class="bg-white font-header dark:bg-gray-900 dark:text-white">
-        <nav class="flex px-5 py-5 justify-between shadow-sm">
+        <nav class="flex px-5 py-5 justify-between shadow-md">
             <div>
                 <router-link class="font-bold text-xl md:text-2xl" :to="{ name: 'home'}">NelsonIsioma.me</router-link>
             </div>
@@ -66,9 +66,6 @@ export default {
                 </ul>
             </div>
           <div class="flex gap-2">
-            <!-- <button v-if="userData.imageURL" @click="toggleProfileMenu">
-              <img :src="userData.imageURL">
-            </button> -->
             <button v-if="userData.name" class="p-1 w-10 rounded-full bg-zinc-800 dark:bg-white text-white dark:text-black" @click="toggleProfileMenu">
               <span class="text-xl text-white dark:text-black">{{ getUserInitials }}</span>
             </button>
