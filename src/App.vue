@@ -12,15 +12,12 @@ export default {
   name: "app",
   components: {LoadingScreen, Navigation, Footer, Overlay, LoginModal},
   mounted() {
-    // if (this.userData && Object.keys(this.userData).length === 0 && Object.getPrototypeOf(this.userData) === Object.prototype) {
-    //   return null
-    // }
-
-    // this.getData() 
-    // if (this.blogPosts.length === 0) {
-    //   return null
-    // }
     this.getPosts()
+    if (this.userData && Object.keys(this.userData).length === 0 && Object.getPrototypeOf(this.userData) === Object.prototype) {
+      return null
+    }
+
+    this.getData() 
   },
   data() {
     return {

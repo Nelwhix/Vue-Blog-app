@@ -59,9 +59,10 @@ const routes = [
         }
     },
     {
-        path: '/view-post',
+        path: '/posts/:id',
         name: 'PostView',
         component: PostView,
+        props: true,
         meta: {
             title: 'View Blog Post'
         }

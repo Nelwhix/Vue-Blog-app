@@ -11,16 +11,18 @@ export const useUserStore = defineStore('userStore', {
         return {
             userData: useStorage('userData', []),
             isLoading: false,
+            isAdmin: false,
         }
     },
     actions: {
         getData() {
             axios.get('/user')
                 .then(res => {
-                    this.userData = res.data
+                    this.userData = res.data.currentUser
+                    this.isAdmin = res.data.isAdmin
                 })
                 .catch(err => {
-                    return null
+                    console.log(err)
                 })
         },
         async register(form, serverErrors) {
@@ -69,12 +71,14 @@ export const useUserStore = defineStore('userStore', {
             if (this.userData.google_id) {
                 googleLogout();
                 this.userData = {}
+                this.isAdmin = false
                 this.isLoading = false
             } else {
                 await axios
                 .post('/logout')
                 .then(() => {
                     this.userData = {}
+                    this.isAdmin = false
                 })
                 .catch(err => {
                     if (err.response) {

@@ -6,7 +6,13 @@ export default {
     name: 'BlogCard',
     props: ['post'],
     computed: {
-      ...mapState(useBlogStore, ['editMode'])
+      ...mapState(useBlogStore, ['editMode']),
+      formattedDate() {
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        const serverDate = new Date(this.post.created_at)
+        const formattedDate = months[serverDate.getMonth()] + " " + serverDate.getDay() + ', ' + serverDate.getFullYear()
+        return formattedDate
+      }
     }
 }
 </script>
@@ -29,8 +35,8 @@ export default {
             </div>
             <div class="p-5">
                 <h3 class="text-md">{{ post.blogTitle }}</h3>
-                <p class="my-1 text-sm">{{ post.created_at }}</p>
-                <router-link class="link" to="#">
+                <p class="my-1 text-sm">{{ formattedDate }}</p>
+                <router-link class="link" :to="{ name: 'PostView', params: { id: post.id }}">
                     VIEW THE POST <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>

@@ -10,7 +10,7 @@ export default {
     data() {
         return {
             heroSection: {
-                title: "WELCOME!",
+                title: "WELCOME to my Blog!",
                 blogPost:
                     "I could have used Wordpress, but I did oversabi and built this with Vue, Tailwind and a Laravel API. Sign In so you get notified for new posts 😁 ",
                 isHero: true,

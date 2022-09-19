@@ -5,7 +5,8 @@ import { useBlogStore } from "../store/blogStore.js";
 import { mapWritableState } from "pinia";
 import Overlay from "../components/Overlay.vue";
 import blogCoverPreview from '../components/blogCoverPreview.vue';
-import BlotFormatter from 'quill-blot-formatter';
+import { ImageActions } from '@xeger/quill-image-actions';
+import { ImageFormats } from '@xeger/quill-image-formats';
 import {mapActions} from "pinia";
 import ImageUploader from 'quill-image-uploader';
 import axios from '../lib/axios';
@@ -70,31 +71,35 @@ export default {
   setup: () => {
     const modules = [
       {
-        name: 'blotFormatter',
-        module: BlotFormatter,
+        name: 'imageActions',
+        module: ImageActions,
       },
       {
-        name: 'imageUploader',
-        module: ImageUploader,
-        options: {
-          upload: file => {
-            return new Promise(async (resolve, reject) => {
-              await axios.get('/sanctum/csrf-cookie')
-              const formData = new FormData();
-              formData.append("postImages", file);
-              axios.post('/upload-image', formData)
-              .then(res => {
-                console.log(res)
-                resolve(res.data.url);
-              })
-              .catch(err => {
-                reject("Upload failed");
-                console.error("Error:", err)
-              })
-            })
-          }
-        }
-      }
+        name: 'imageFormats',
+        module: ImageFormats,
+      },
+      // {
+      //   name: 'imageUploader',
+      //   module: ImageUploader,
+      //   options: {
+      //     upload: file => {
+      //       return new Promise(async (resolve, reject) => {
+      //         await axios.get('/sanctum/csrf-cookie')
+      //         const formData = new FormData();
+      //         formData.append("postImages", file);
+      //         axios.post('/upload-image', formData)
+      //         .then(res => {
+      //           console.log(res)
+      //           resolve(res.data.url);
+      //         })
+      //         .catch(err => {
+      //           reject("Upload failed");
+      //           console.error("Error:", err)
+      //         })
+      //       })
+      //     }
+      //   }
+      // }
     ]
     return { modules }
   }
