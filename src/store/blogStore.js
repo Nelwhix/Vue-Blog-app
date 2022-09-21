@@ -17,6 +17,7 @@ export const useBlogStore = defineStore('blogStore', {
         signUpMode: false,
         overlayMode: true,
         previewMode: true,
+        deleteModalMode: false,
     }),
     actions: {
         async publishPost(form, serverErrors) {

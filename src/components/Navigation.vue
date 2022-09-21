@@ -22,7 +22,7 @@ export default {
       },
         toggleNav() {
             this.mobileNav = false
-            this.overlayMode = false
+            this.overlayMode = true
         },
         iconToggle() {
             this.iconSwitch = !this.iconSwitch
@@ -33,7 +33,7 @@ export default {
             this.mobileNav = true
           }
           this.signInMode = false
-          this.overlayMode = false
+          this.overlayMode = true
         },
       toggleProfileMenu() {
           this.dropdown = !this.dropdown
@@ -70,7 +70,7 @@ export default {
               <span class="text-xl text-white dark:text-black">{{ getUserInitials }}</span>
             </button>
               <div class="relative mt-8">
-                <div class="p-2 absolute text-black dark:bg-gray-900 dark:text-white top-6 right-1 w-56 z-30 bg-gray-300" :class="{ 'hidden': dropdown }">
+                <div class="p-2 absolute text-black dark:bg-gray-900 dark:text-white top-6 right-1 w-56 z-30 bg-gray-300 rounded-sm" :class="{ 'hidden': dropdown }">
                   <div class="grid grid-cols-4 mb-2">
                     <p class="col-span-1 bg-gray-200 rounded-full w-10 p-1 text-black text-center">{{ getUserInitials }}</p>
                     <div class="col-span-3">

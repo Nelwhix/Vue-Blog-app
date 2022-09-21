@@ -3,12 +3,14 @@ import { mapState, mapWritableState } from 'pinia'
 import { useBlogStore } from '../store/blogStore'
 import BlogCard from "../components/BlogCard.vue";
 import { useUserStore } from '../store/userStore';
+import DeleteModal from '../components/DeleteModal.vue';
 
 export default {
     name: 'blogs',
     components: {
-      BlogCard
-    },
+    BlogCard,
+    DeleteModal
+},
     data() {
       return {
         iconSwitch: false,
@@ -29,6 +31,7 @@ export default {
 
 <template>
   <div>
+    <DeleteModal />
     <div class="mx-2 py-3 flex justify-end gap-2" v-if="isAdmin">
       <span>Toggle Editing Post</span>
       <div class="rounded-full border-[0.5px] border-gray-400 bg-gray-200 w-12 h-6" @click="edit">

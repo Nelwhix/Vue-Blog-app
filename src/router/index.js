@@ -77,7 +77,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const store = useBlogStore()
     store.mobileNav = true
-    store.overlayMode = true
+    store.overlayMode = false
     document.title = `${to.meta.title} | NelsonIsioma.me`;
     next();
 });
