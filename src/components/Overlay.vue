@@ -5,6 +5,7 @@ const blogStore = useBlogStore()
 
 const closeModal = () => {
   blogStore.overlayMode = false
+  blogStore.mobileNav = true
 }
 
 </script>

@@ -4,6 +4,7 @@ import {useUserStore} from "./userStore.js";
 
 const csrf = () => axios.get('/sanctum/csrf-cookie')
 
+
 export const useBlogStore = defineStore('blogStore', {
     state: () => ({
         blogPosts: [],
@@ -17,7 +18,6 @@ export const useBlogStore = defineStore('blogStore', {
         signUpMode: false,
         overlayMode: true,
         previewMode: true,
-        deleteModalMode: false,
     }),
     actions: {
         async publishPost(form, serverErrors) {
@@ -51,5 +51,21 @@ export const useBlogStore = defineStore('blogStore', {
             })
         },
 
+        async deletePost(id) {
+            const userStore = useUserStore()
+            userStore.isLoading = true
+            await csrf()
+
+            axios.delete('/posts/' + id)
+                .then((response) => {
+                    this.getPosts()
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+                .then(() => {
+                    userStore.isLoading = false
+                })
+        }
     }
 })

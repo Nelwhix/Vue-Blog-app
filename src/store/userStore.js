@@ -53,7 +53,7 @@ export const useUserStore = defineStore('userStore', {
                 .then(res => {
                     this.getData()
                     blogStore.signInMode = true
-                    blogStore.overlayMode = true
+                    blogStore.overlayMode = false
                 })
                 .catch(err => {
                     if (err.response) {
