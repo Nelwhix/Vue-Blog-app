@@ -1,5 +1,5 @@
 <script>
-import { QuillEditor } from '@vueup/vue-quill'
+import { Quill, QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { useBlogStore } from "../store/blogStore.js";
 import { mapWritableState } from "pinia";
@@ -12,6 +12,8 @@ import ImageUploader from 'quill-image-uploader';
 import axios from '../lib/axios';
 import { useUserStore } from "../store/userStore.js"
 
+Quill.register('modules/imageActions', ImageActions);
+Quill.register('modules/imageFormats', ImageFormats)
 
 export default {
   name: "CreatePost",
@@ -69,39 +71,33 @@ export default {
   },
 
   setup: () => {
-    const modules = [
-      {
-        name: 'imageActions',
-        module: ImageActions,
-      },
-      {
-        name: 'imageFormats',
-        module: ImageFormats,
-      },
-      // {
-      //   name: 'imageUploader',
-      //   module: ImageUploader,
-      //   options: {
-      //     upload: file => {
-      //       return new Promise(async (resolve, reject) => {
-      //         await axios.get('/sanctum/csrf-cookie')
-      //         const formData = new FormData();
-      //         formData.append("postImages", file);
-      //         axios.post('/upload-image', formData)
-      //         .then(res => {
-      //           console.log(res)
-      //           resolve(res.data.url);
-      //         })
-      //         .catch(err => {
-      //           reject("Upload failed");
-      //           console.error("Error:", err)
-      //         })
-      //       })
-      //     }
-      //   }
-      // }
-    ]
-    return { modules }
+    const editorOptions = {
+    formats: ['align', 'background', 'blockquote', 'bold', 'code-block', 'color', 'float', 'font', 'header', 'height', 'image', 'italic', 'link', 'script', 'strike', 'size', 'underline', 'width'],
+    modules:{
+        imageActions: {},
+        imageFormats: {},
+        toolbar:{
+            container:[
+               'bold','italic','underline',
+               {align:[]},
+               {size:['small',false,'large','huge']},
+               {direction:'rtl'},
+               {header:1},{header:2},
+               {script:'sub'},{scsript:'super'},
+               'blockquote','code',
+               {list:'ordered'},{list:'bullet'},
+               {color:[]}, 
+               {'header':[1,2,3,4,5,6]},
+               'link',
+               'image',                
+            ],
+        },
+    },
+    placeholder: 'Write post/article here',
+    theme:'snow'
+    };
+
+    return { editorOptions }
   }
 }
 </script>
@@ -124,7 +120,11 @@ export default {
         <button type="button" class="rounded-full bg-zinc-800 text-white p-2 text-sm mt-2 mr-5 hover:opacity-70 disabled:opacity-50" ref="previewbtn" @click="showPreviewMenu" disabled>Preview Photo</button>
         <span>File Chosen: {{ blogPhotoName }}</span>
       </div>
-      <QuillEditor :modules="modules" v-model:content="blogHTML" contentType="html" theme="snow" toolbar="full"/>
+      <QuillEditor 
+          v-model:content="blogHTML"
+          contentType="html"
+          :options="editorOptions"
+      />
     </div>
     <div class="mt-5">
       <button @click="submitPost" class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70">Publish Post</button>

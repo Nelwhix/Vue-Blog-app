@@ -52,7 +52,7 @@ export default {
     },
     closeModal() {
       this.signInMode = true
-      this.overlayMode = true
+      this.overlayMode = false
     }
   },
   computed: {

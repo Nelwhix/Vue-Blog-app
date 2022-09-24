@@ -7,6 +7,7 @@ import Profile from "../views/Profile.vue";
 import CreatePost from "../views/CreatePost.vue";
 import BlogPreview from "../views/BlogPreview.vue";
 import PostView from "../views/PostView.vue";
+import EditPost from "../views/EditPost.vue"
 
 
 const routes = [
@@ -65,6 +66,15 @@ const routes = [
         props: true,
         meta: {
             title: 'View Blog Post'
+        }
+    },
+    {
+        path: '/posts/:id',
+        name: 'EditPost',
+        component: CreatePost,
+        props: true,
+        meta: {
+            title: 'Edit Post'
         }
     }
 ]

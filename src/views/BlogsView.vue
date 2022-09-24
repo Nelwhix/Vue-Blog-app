@@ -5,6 +5,7 @@ import BlogCard from "../components/BlogCard.vue";
 import { useUserStore } from '../store/userStore';
 import DeleteModal from '../components/DeleteModal.vue';
 import { ref } from "vue";
+import { useRouter } from 'vue-router';
 
 export default {
     name: 'blogs',
@@ -28,6 +29,7 @@ export default {
       }
     },
     setup() { 
+      const router = useRouter()
       const currentPostID = ref(null)
       const modalShow = ref(false)
 
@@ -36,7 +38,11 @@ export default {
         modalShow.value = !modalShow.value
       }
 
-      return { modalShow, toggleDeleteModal, currentPostID }
+      const pushEditPost = (id) => {
+        router.push({ name: "EditPost", params: { id: id}})
+      }
+
+      return { modalShow, toggleDeleteModal, currentPostID, pushEditPost }
     }
 }
 </script>
@@ -53,7 +59,7 @@ export default {
     </div>
     <div class="bg-gray-200 p-8" @click="clicked">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-10 font-header">
-        <BlogCard v-for="(post, index) in blogPosts" :key="index" :post="post" @delete-post="toggleDeleteModal"/>
+        <BlogCard v-for="(post, index) in blogPosts" :key="index" :post="post" @delete-post="toggleDeleteModal" @edit-post="pushEditPost"/>
       </div>
     </div>
   </div>
