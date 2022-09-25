@@ -71,7 +71,7 @@ const routes = [
     {
         path: '/posts/:id',
         name: 'EditPost',
-        component: CreatePost,
+        component: EditPost,
         props: true,
         meta: {
             title: 'Edit Post'

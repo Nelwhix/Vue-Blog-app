@@ -17,15 +17,7 @@
     Quill.register('modules/imageFormats', ImageFormats)
     
     export default {
-      name: "CreatePost",
-      data() {
-        return {
-          file: null,
-          error: false,
-          errorMsg: '',
-          serverErrors: {},
-        }
-      },
+      name: "EditPost",
       components: {
         QuillEditor, Overlay, blogCoverPreview
       },
@@ -44,34 +36,10 @@
         showPreviewMenu() {
           this.previewMode = false
           this.overlayMode = false
-        },
-        submitPost() {
-          if (this.blogTitle.length !== 0 && this.blogHTML) {
-            if (this.file) {
-              const formData = new FormData();
-              formData.append('blogTitle', this.blogTitle)
-              formData.append('coverPhotoName', this.blogPhotoName)
-              formData.append('blogHTML', this.blogHTML)
-              formData.append('blogPhoto', this.file)
-              this.publishPost(formData, this.serverErrors)
-            } else {
-                this.error = true;
-                this.errorMsg = "Please ensure you uploaded a cover photo!"
-                setTimeout(() => {
-                  this.error = false;
-                }, 5000)
-            }
-          } else {
-            this.error = true;
-            this.errorMsg = "Please ensure Blog Title & Blog Post has been filled!"
-            setTimeout(() => {
-              this.error = false;
-            }, 5000)
-          }
         }
-      },
-    
-      setup: () => {
+      }, 
+      props: ['id'],
+      setup: (props) => {
         const editorOptions = {
         formats: ['align', 'background', 'blockquote', 'bold', 'code-block', 'color', 'float', 'font', 'header', 'height', 'image', 'italic', 'link', 'script', 'strike', 'size', 'underline', 'width'],
         modules:{
@@ -97,7 +65,6 @@
         theme:'snow'
         
     };
-        const props = defineProps(['id'])
         const currentPost = ref(null)
 
         onMounted(() => {
@@ -108,24 +75,30 @@
                 .catch(error => {
                     console.log(error)
                 })
-        })
+        });
 
-        return { editorOptions, currentPost }
+        const file = ref(null)
+
+        const blogStore = useBlogStore()
+        const submitPost = () => {
+          const formData = new FormData();
+          formData.append('blogTitle', currentPost.blogTitle)
+          formData.append('coverPhotoName', this.blogPhotoName)
+          formData.append('blogHTML', currentPost.blogHTML)
+          formData.append('blogPhoto', this.file)
+          blogStore.updatePost(formData, props.id)
+        }
+
+         return { editorOptions, currentPost, submitPost}
       }
     }
     </script>
     
     <template>
-      <section class="my-5 p-3 font-body md:px-10">
+      <section v-if="currentPost" class="my-5 p-3 font-body md:px-10">
         <blogCoverPreview :class="{ 'hidden': previewMode }"/>
         <Overlay />
         <div>
-          <div v-if="error" class="rounded-md text-white pl-2 py-2 text-sm bg-zinc-800">
-            {{ errorMsg }}
-          </div>
-          <div v-if="serverErrors.errorArray" class="serverErrorMessage rounded-md text-white pl-2 py-2 text-sm bg-red-600">
-           API response: 403 {{ serverErrors.errorArray }}
-          </div>
           <input type="text" v-model="currentPost.blogTitle" placeholder="Enter Blog Title" class="mb-4 pl-2 focus:outline-0 border-b border-black">
           <div class="mb-4">
             <label for="blogPhoto" class="rounded-full bg-zinc-800 text-white p-2 text-sm mr-5 hover:opacity-70">Upload Cover Photo</label>

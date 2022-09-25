@@ -39,7 +39,7 @@ export default {
         </div>
         <div class="col order-first">
             <img v-if="post.isHero" src="https://i.ibb.co/pQNWZCp/personcoding.jpg" class="object-contain" alt="personcoding">
-            <img v-else :src="post.coverPhotoURL" class="object-cover h-full">
+            <img v-else :src="post.coverPhotoURL" class="object-cover h-full w-full">
         </div>
     </div>
     <hr class="hidden md:block"/>

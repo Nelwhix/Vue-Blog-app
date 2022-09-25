@@ -41,6 +41,26 @@ export const useBlogStore = defineStore('blogStore', {
                 })
         },
 
+        async updatePost(form, serverErrors, id) {
+            const userStore = useUserStore()
+            userStore.isLoading = true
+            await csrf()
+
+            axios.post('/posts/' + id, form)
+                .then(response => {
+                    this.$router.push({name: 'PostView', params: {id: id}})
+                    console.log(response)
+                })
+                .catch(error => {
+                    if (error.response) {
+                        serverErrors.errorArray = error.response.data.message
+                    }
+                })
+                .then(() => {
+                    userStore.isLoading = false
+                })
+        },
+
         getPosts() {
             axios.get('/posts')
             .then(response => {
