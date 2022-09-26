@@ -9,7 +9,7 @@
     methods: {
       removePrevMenu() {
         this.previewMode = true
-        this.overlayMode = true
+        this.overlayMode = false
       }
     }
   }

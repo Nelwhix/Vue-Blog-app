@@ -5,66 +5,20 @@
     import { mapWritableState } from "pinia";
     import Overlay from "../components/Overlay.vue";
     import blogCoverPreview from '../components/blogCoverPreview.vue';
-    import { ImageActions } from '@xeger/quill-image-actions';
-    import { ImageFormats } from '@xeger/quill-image-formats';
     import {mapActions} from "pinia";
     import ImageUploader from 'quill-image-uploader';
     import axios from '../lib/axios';
     import { useUserStore } from "../store/userStore.js"
     import { onMounted, ref } from "vue"
     
-    Quill.register('modules/imageActions', ImageActions);
-    Quill.register('modules/imageFormats', ImageFormats)
     
     export default {
       name: "EditPost",
       components: {
         QuillEditor, Overlay, blogCoverPreview
       },
-      computed: {
-        ...mapWritableState(useBlogStore, ['blogPhotoName', 'blogPhotoUrl', 'previewMode', 'overlayMode', 'blogHTML', 'blogTitle']),
-        ...mapWritableState(useUserStore, ['userData'])
-      },
-      methods: {
-        ...mapActions(useBlogStore, ['publishPost']),
-        fileChange() {
-          this.file = this.$refs.blogPhoto.files[0]
-          this.blogPhotoName = this.file.name
-          this.blogPhotoUrl = URL.createObjectURL(this.file)
-          this.$refs.previewbtn.disabled = false
-        },
-        showPreviewMenu() {
-          this.previewMode = false
-          this.overlayMode = false
-        }
-      }, 
       props: ['id'],
       setup: (props) => {
-        const editorOptions = {
-        formats: ['align', 'background', 'blockquote', 'bold', 'code-block', 'color', 'float', 'font', 'header', 'height', 'image', 'italic', 'link', 'script', 'strike', 'size', 'underline', 'width'],
-        modules:{
-            imageActions: {},
-            imageFormats: {},
-            toolbar:{
-                container:[
-                   'bold','italic','underline',
-                   {align:[]},
-                   {size:['small',false,'large','huge']},
-                   {direction:'rtl'},
-                   {header:1},{header:2},
-                   {script:'sub'},{scsript:'super'},
-                   'blockquote','code',
-                   {list:'ordered'},{list:'bullet'},
-                   {color:[]}, 
-                   {'header':[1,2,3,4,5,6]},
-                   'link',
-                   'image',                
-                ],
-            },
-        },
-        theme:'snow'
-        
-    };
         const currentPost = ref(null)
 
         onMounted(() => {
@@ -77,19 +31,10 @@
                 })
         });
 
-        const file = ref(null)
 
         const blogStore = useBlogStore()
-        const submitPost = () => {
-          const formData = new FormData();
-          formData.append('blogTitle', currentPost.blogTitle)
-          formData.append('coverPhotoName', this.blogPhotoName)
-          formData.append('blogHTML', currentPost.blogHTML)
-          formData.append('blogPhoto', this.file)
-          blogStore.updatePost(formData, props.id)
-        }
 
-         return { editorOptions, currentPost, submitPost}
+         return { currentPost, submitPost}
       }
     }
     </script>
@@ -109,7 +54,7 @@
           <QuillEditor 
               v-model:content="currentPost.blogHTML"
               contentType="html"
-              :options="editorOptions"
+              toolbar="full"
           />
         </div>
         <div class="mt-5">

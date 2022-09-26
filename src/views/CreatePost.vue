@@ -1,19 +1,14 @@
 <script>
-import { Quill, QuillEditor } from '@vueup/vue-quill'
+import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { useBlogStore } from "../store/blogStore.js";
 import { mapWritableState } from "pinia";
 import Overlay from "../components/Overlay.vue";
 import blogCoverPreview from '../components/blogCoverPreview.vue';
-import { ImageActions } from '@xeger/quill-image-actions';
-import { ImageFormats } from '@xeger/quill-image-formats';
 import {mapActions} from "pinia";
 import ImageUploader from 'quill-image-uploader';
 import axios from '../lib/axios';
 import { useUserStore } from "../store/userStore.js"
-
-Quill.register('modules/imageActions', ImageActions);
-Quill.register('modules/imageFormats', ImageFormats)
 
 export default {
   name: "CreatePost",
@@ -42,7 +37,7 @@ export default {
     },
     showPreviewMenu() {
       this.previewMode = false
-      this.overlayMode = false
+      this.overlayMode = true
     },
     submitPost() {
       if (this.blogTitle.length !== 0 && this.blogHTML) {
@@ -71,33 +66,28 @@ export default {
   },
 
   setup: () => {
-    const editorOptions = {
-    formats: ['align', 'background', 'blockquote', 'bold', 'code-block', 'color', 'float', 'font', 'header', 'height', 'image', 'italic', 'link', 'script', 'strike', 'size', 'underline', 'width'],
-    modules:{
-        imageActions: {},
-        imageFormats: {},
-        toolbar:{
-            container:[
-               'bold','italic','underline',
-               {align:[]},
-               {size:['small',false,'large','huge']},
-               {direction:'rtl'},
-               {header:1},{header:2},
-               {script:'sub'},{scsript:'super'},
-               'blockquote','code',
-               {list:'ordered'},{list:'bullet'},
-               {color:[]}, 
-               {'header':[1,2,3,4,5,6]},
-               'link',
-               'image',                
-            ],
-        },
-    },
-    placeholder: 'Write post/article here',
-    theme:'snow'
-    };
+    const modules = {
+        name: 'imageUploader',
+        module: ImageUploader,
+        options: {
+          upload: file => {
+            return new Promise((resolve, reject) => {
+              const formData = new FormData();
+              formData.append("image", file);
 
-    return { editorOptions }
+              axios.post('/upload-image', formData)
+              .then(res => {
+                resolve(res.data.url);
+              })
+              .catch(err => {
+                reject("Upload failed");
+                console.error("Error:", err)
+              })
+            })
+          }
+        }
+      }
+    return { modules }
   }
 }
 </script>
@@ -123,7 +113,8 @@ export default {
       <QuillEditor 
           v-model:content="blogHTML"
           contentType="html"
-          :options="editorOptions"
+          toolbar="full"
+          :modules="modules"
       />
     </div>
     <div class="mt-5">

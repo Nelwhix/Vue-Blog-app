@@ -10,7 +10,7 @@ export default {
         formattedDate() {
             const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             const serverDate = new Date(this.post.created_at);
-            const formattedDate = months[serverDate.getMonth()] + " " + serverDate.getDay() + ", " + serverDate.getFullYear();
+            const formattedDate = months[serverDate.getMonth()] + " " + serverDate.getDate() + ", " + serverDate.getFullYear();
             return formattedDate;
         }
     },
