@@ -55,7 +55,7 @@ export default {
     <header class="bg-white font-header dark:bg-gray-900 dark:text-white">
         <nav class="flex px-5 py-5 justify-between shadow-sm">
             <div>
-                <router-link class="font-bold text-xl md:text-2xl" :to="{ name: 'home'}">NelsonIsioma.me</router-link>
+                <router-link class="font-bold text-xl md:text-2xl" :to="{ name: 'home'}">Devleads</router-link>
             </div>
             <div class="nav-links">
                 <ul class="hidden md:flex gap-2">
